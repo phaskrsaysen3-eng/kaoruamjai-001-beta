@@ -162,7 +162,7 @@ function heroCard(pose, motion, lv, st, into, bubble = '', poke = false) {
     ${poke ? `<button class="char ${motion}" data-act="poke" aria-label="แตะตัวละครเพื่อทักทาย">${sprite(pose, h)}</button>` : `<div class="char ${motion}">${sprite(pose, h)}</div>`}
     <div class="xp">
       <span class="xp-lbl">แต้มสะสม</span>
-      <div class="bar" style="flex:1"><i style="width:${into}%;background:linear-gradient(90deg,#16A34A,#F59E0B)"></i></div>
+      <div class="bar" style="flex:1"><i style="width:${into}%;background:linear-gradient(90deg,#73A617,#9E7B1E)"></i></div>
       <span class="tnum" style="white-space:nowrap;font-weight:700;color:var(--god)">อีก ${XP_PER_LEVEL - into} แต้ม</span>
     </div>
   </div>`;
@@ -327,8 +327,8 @@ V.step = () => {
 
     ${absenceBanner()}
 
-    ${rs === 'FROZEN' || rs === 'WAITING_CLEARANCE' ? `<div class="card stack-v" style="background:linear-gradient(135deg,#EFF6FF,#FFFFFF);border:1.5px solid #93C5FD">
-      <div class="row" style="gap:10px">${ic('heart', 24, '#2563EB')}<b class="h" style="color:var(--skyd)">${rs === 'WAITING_CLEARANCE' ? 'รอถามแพทย์/เจ้าหน้าที่ · เปิดเฉพาะท่านั่ง (ระดับ 0)' : `กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[S.progress.freeze.reason].label)}`}</b></div>
+    ${rs === 'FROZEN' || rs === 'WAITING_CLEARANCE' ? `<div class="card stack-v" style="background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:1.5px solid #A8CEC5">
+      <div class="row" style="gap:10px">${ic('heart', 24, '#3B7A6C')}<b class="h" style="color:var(--skyd)">${rs === 'WAITING_CLEARANCE' ? 'รอถามแพทย์/เจ้าหน้าที่ · เปิดเฉพาะท่านั่ง (ระดับ 0)' : `กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[S.progress.freeze.reason].label)}`}</b></div>
       <p class="sub" style="margin:0">พักร่างกายให้เต็มที่นะคะ สแตกความต่อเนื่อง (${S.progress.stack} สัปดาห์) ถูกเก็บรักษาไว้ไม่ลดลง และไม่ทำให้คะแนนของก๊วนลดลงค่ะ</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">${rs === 'WAITING_CLEARANCE' ? 'ถามแพทย์แล้ว กลับมาเริ่ม' : 'หายดีแล้ว กลับมา'}</button>
@@ -338,21 +338,49 @@ V.step = () => {
 
     <div class="card mission-hero ${done ? 'is-done' : ''}">
       <div class="mh-top">
-        <span class="mh-kicker">${ic('pulse', 18, '#15803D', 2.4)} ${seated ? 'ภารกิจท่านั่งวันนี้' : recWalk ? 'ภารกิจเดินฟื้นตัววันนี้' : 'ภารกิจวันนี้'}</span>
-        ${str ? `<span class="streak-pill">${ic('fire', 17, '#C2410C', 2.3)} เดินติดกัน <b>${str} วัน</b></span>` : ''}
+        <span class="mh-kicker">${ic('pulse', 18, '#55840A', 2.4)} ${seated ? 'ภารกิจท่านั่งวันนี้' : recWalk ? 'ภารกิจเดินฟื้นตัววันนี้' : 'ภารกิจวันนี้'}</span>
+        ${str ? `<span class="streak-pill">${ic('fire', 17, '#8C5A2B', 2.3)} เดินติดกัน <b>${str} วัน</b></span>` : ''}
       </div>
       <div class="mh-body">
-        <div class="mh-ring-wrap">${ring(mins / goal, 138, 13, '#16A34A', `<span class="ring-kicker">${done ? 'สำเร็จ' : seated ? 'ท่านั่ง' : 'เดินแล้ว'}</span><span class="h tnum ring-big">${Math.min(mins, 999)}</span><span class="ring-unit">จาก ${goal} นาที</span>`)}</div>
+        <div class="mh-ring-wrap">${ring(mins / goal, 138, 13, '#73A617', `<span class="ring-kicker">${done ? 'สำเร็จ' : seated ? 'ท่านั่ง' : 'เดินแล้ว'}</span><span class="h tnum ring-big">${Math.min(mins, 999)}</span><span class="ring-unit">จาก ${goal} นาที</span>`)}</div>
         <div class="mh-content">
           <div class="mh-title-row"><h2 class="h mh-title">${seated ? `ท่านั่งเบาๆ ${goal} นาที` : recWalk ? `เดินฟื้นตัว ${goal} นาที` : `เดินต่อเนื่อง ${goal} นาที`}</h2><span class="mh-pct tnum">${pctToday}%</span></div>
           <p class="mh-status ${done ? 'done' : ''}">${seated ? 'ทำท่าบริหารท่านั่งเบาๆ ตามกำลัง หรือพักผ่อนให้เต็มที่ค่ะ' : done ? 'ทำภารกิจวันนี้ครบแล้ว พรุ่งนี้มาเดินกันใหม่' : mins > 0 ? `เหลืออีก ${Math.max(0, goal - mins)} นาที` : `เมื่อวานเดินได้ ${p[5].minutes} นาที`}</p>
-          <div class="mh-badges"><span class="mh-badge">${ic('star', 16, '#B45309')} ครบภารกิจ +${XP_PER_MISSION} แต้ม</span><span class="mh-badge">${ic('info', 16, '#15803D')} ${recWalk ? 'คุมความหนักด้วย Talk Test' : g.from === 'tier' ? 'เป้าจากผลประเมิน' : 'เป้าตั้งต้น (ยังไม่ประเมิน)'}</span></div>
+          <div class="mh-badges"><span class="mh-badge">${ic('star', 16, '#6E530E')} ครบภารกิจ +${XP_PER_MISSION} แต้ม</span><span class="mh-badge">${ic('info', 16, '#55840A')} ${recWalk ? 'คุมความหนักด้วย Talk Test' : g.from === 'tier' ? 'เป้าจากผลประเมิน' : 'เป้าตั้งต้น (ยังไม่ประเมิน)'}</span></div>
         </div>
       </div>
       <div class="vitals-grid">
-        <div class="vital-box"><span class="vb-ic">${ic('feet', 22, '#15803D')}</span><div class="vb-txt"><span class="vb-lbl">${todaySteps ? 'ก้าววันนี้' : 'ก้าวสัปดาห์นี้'}</span><b class="vb-val tnum">${nf(todaySteps || weekSteps)} <small>ก้าว</small></b></div></div>
-        <div class="vital-box"><span class="vb-ic">${ic('chart', 22, '#15803D')}</span><div class="vb-txt"><span class="vb-lbl">สัปดาห์นี้</span><b class="vb-val tnum">${week}/${S.user.weeklyGoal} <small>นาที</small></b></div></div>
-        <div class="vital-box"><span class="vb-ic">${ic('fire', 22, '#C2410C')}</span><div class="vb-txt"><span class="vb-lbl">สแตกสะสม</span><b class="vb-val tnum">${S.progress.stack} <small>สัปดาห์</small></b></div></div>
+        <div class="vital-box vb-steps"><span class="vb-ic">${ic('feet', 22, '#55840A')}</span><div class="vb-txt"><span class="vb-lbl">${todaySteps ? 'ก้าววันนี้' : 'ก้าวสัปดาห์นี้'}</span><b class="vb-val tnum">${nf(todaySteps || weekSteps)} <small>ก้าว</small></b></div></div>
+        <button class="vital-box vb-sleep" data-act="qSleep" type="button"><span class="vb-ic">${ic('clock', 22, '#3B7A6C')}</span><div class="vb-txt"><span class="vb-lbl">การนอน</span><b class="vb-val tnum">${S.quickLog?.sleep != null ? `${S.quickLog.sleep} <small>ชม.</small>` : 'แตะบันทึก'}</b></div></button>
+        <button class="vital-box vb-hr" data-act="qBp" type="button"><span class="vb-ic">${ic('heart', 22, '#A65B46')}</span><div class="vb-txt"><span class="vb-lbl">ชีพจร</span><b class="vb-val tnum">${S.quickLog?.hr != null ? `${S.quickLog.hr} <small>ครั้ง/นาที</small>` : 'แตะบันทึก'}</b></div></button>
+      </div>
+    </div>
+
+    <div class="card quick-log-card">
+      <div class="ql-head">
+        <div>
+          <h2 class="sec-title" style="margin:0">บันทึกสุขภาพไว</h2>
+          <p class="sub" style="margin:2px 0 0;font-size:.95rem">แตะเลือกได้เลย ไม่ต้องพิมพ์หลายขั้นตอน</p>
+        </div>
+        ${S.quickLog?.updatedAt === todayKey() ? '<span class="ql-done">บันทึกวันนี้แล้ว</span>' : ''}
+      </div>
+      <div class="ql-grid">
+        <button class="ql-btn ql-mood" data-act="qMood" type="button">
+          <span class="ql-ic">${ic('smile', 24, '#55840A')}</span>
+          <span class="ql-txt"><b>อารมณ์</b><small>${esc(S.quickLog?.mood || 'แตะเลือก')}</small></span>
+        </button>
+        <button class="ql-btn ql-weight" data-act="qWeight" type="button">
+          <span class="ql-ic">${ic('scale', 24, '#664D0B')}</span>
+          <span class="ql-txt"><b>น้ำหนัก</b><small>${S.quickLog?.weight != null ? `${S.quickLog.weight.toFixed(1)} กก.` : 'แตะบันทึก'}</small></span>
+        </button>
+        <button class="ql-btn ql-bp" data-act="qBp" type="button">
+          <span class="ql-ic">${ic('pulse', 24, '#A65B46')}</span>
+          <span class="ql-txt"><b>ความดัน · ชีพจร</b><small>${S.quickLog?.bp ? `${esc(S.quickLog.bp)} · ${S.quickLog.hr || '—'}` : 'แตะบันทึก'}</small></span>
+        </button>
+        <button class="ql-btn ql-meal" data-act="qMeal" type="button">
+          <span class="ql-ic">${ic('sprout', 24, '#3B7A6C')}</span>
+          <span class="ql-txt"><b>อาหาร · น้ำดื่ม</b><small>${esc(S.quickLog?.meal || 'แตะเลือก')}</small></span>
+        </button>
       </div>
     </div>
 
@@ -372,15 +400,6 @@ V.step = () => {
         <div class="wk-summary"><span class="wk-num tnum">รวม <b>${week}</b>/${S.user.weeklyGoal} นาที</span><div class="bar sm" style="width:120px"><i style="width:${pctWeek}%"></i></div></div></div>
       ${weekChart(p, goal)}
     </div>
-
-    <button class="card device-banner" data-go="device" style="text-align:left;width:100%">
-      <div class="db-icon">${ic('clip', 30)}</div>
-      <div class="db-info">
-        <div class="db-title-row"><b class="h">ตัวหนีบนับก้าว ${esc(S.user.deviceId)}</b><span class="tag s">ข้อมูลตัวอย่าง</span></div>
-        <div class="db-sub"><span>ผ่าน${esc(S.device.hub)}</span><span>· ส่งล่าสุด ${ago(S.device.lastSyncAt)}</span></div>
-      </div>
-      <div class="db-right"><span class="batt" style="color:var(--god);font-weight:700;font-size:.95rem"><i><b style="width:${S.device.battery * 0.22}px"></b></i>${S.device.battery}%</span><span class="db-link">รายละเอียด ${ic('chev', 16)}</span></div>
-    </button>
 
     <div class="card section-card">
       <div class="sec-header" style="margin-bottom:8px"><h2 class="sec-title">การเดินล่าสุด</h2><button class="link-btn" data-go="history">ดูทั้งหมด (${S.log.length}) ${ic('chev', 18)}</button></div>
@@ -406,8 +425,8 @@ V.walk = () => {
     </div>
     <div class="grid2"><div class="glass"><div class="h tnum" id="w-steps" style="font-size:2.1rem;line-height:1.1">${nf(walkSteps(el, recWalk))}</div><div>ก้าว (จำลอง)</div></div>
       <div class="glass"><div class="h tnum" style="font-size:2.1rem;line-height:1.1">${walk.paused ? '0' : recWalk ? '1.15' : '1.8'}</div><div>${recWalk ? 'เดินช้าสบายๆ' : 'ก้าวต่อวินาที'}</div></div></div>
-    <div class="chip">${ic('shield', 26, '#15803D')}<span id="w-state">${reached ? '<b>ครบภารกิจแล้ว</b> · กดจบการเดินได้เลย' : recWalk ? '<b>Talk Test:</b> เดินแล้วพูดเป็นประโยคได้แต่ร้องเพลงไม่ได้ (ไม่ต้องเร่งความเร็ว)' : '<b>ระบบจะตรวจเดินจริงตอนจบ</b> · จังหวะ ความสม่ำเสมอ และลายเซ็น'}</span></div>
-    ${recWalk ? `<button class="chip" data-act="toggleTalk" style="text-align:left">${ic('smile', 28, walk.talkOk ? '#15803D' : '#C2410C')}<span>${walk.talkOk ? '<b>ตอนนี้พูดเป็นประโยคได้สบายๆ</b> (แตะเพื่อสลับถ้ารู้สึกหอบ)' : '<b>รู้สึกหอบ พูดไม่เป็นประโยค</b> · ควรชะลอหรือพักก่อนนะคะ'}</span></button>` : ''}
+    <div class="chip">${ic('shield', 26, '#55840A')}<span id="w-state">${reached ? '<b>ครบภารกิจแล้ว</b> · กดจบการเดินได้เลย' : recWalk ? '<b>Talk Test:</b> เดินแล้วพูดเป็นประโยคได้แต่ร้องเพลงไม่ได้ (ไม่ต้องเร่งความเร็ว)' : '<b>ระบบจะตรวจเดินจริงตอนจบ</b> · จังหวะ ความสม่ำเสมอ และลายเซ็น'}</span></div>
+    ${recWalk ? `<button class="chip" data-act="toggleTalk" style="text-align:left">${ic('smile', 28, walk.talkOk ? '#55840A' : '#8C5A2B')}<span>${walk.talkOk ? '<b>ตอนนี้พูดเป็นประโยคได้สบายๆ</b> (แตะเพื่อสลับถ้ารู้สึกหอบ)' : '<b>รู้สึกหอบ พูดไม่เป็นประโยค</b> · ควรชะลอหรือพักก่อนนะคะ'}</span></button>` : ''}
     <button class="chip" data-act="together" style="text-align:left">${head('head_main', 38)}<span>${walk.together ? '<b>จำลอง: เดินอยู่กับลุงชัย</b> · ได้โบนัสเดินด้วยกัน' : 'แตะเพื่อจำลอง: ตัวหนีบของเพื่อนอยู่ใกล้กัน'}</span></button>
     <div class="grid2" style="grid-template-columns:1fr 1.6fr;margin-top:auto">
       <button class="btn" data-act="pause" style="color:#fff;box-shadow:0 0 0 2.5px rgba(255,255,255,.8) inset">${ic(walk.paused ? 'feet' : 'pause', 24, '#fff')} ${walk.paused ? 'เดินต่อ' : 'พัก'}</button>
@@ -427,19 +446,19 @@ V.done = () => {
     const left = Math.max(0, S.user.dailyGoal - tMin());
     speech = `${r.xpGain ? 'ภารกิจสำเร็จ' : 'บันทึกการเดินแล้ว'} เดิน ${Math.round(r.durationSec / 60)} นาที ${nf(r.steps)} ก้าว ${r.xpGain ? `ได้ ${r.xpGain} แต้ม` : ''} วันนี้รู้สึกอย่างไร`;
     return `<section class="view" id="done">
-      <div class="card" style="text-align:center;background:linear-gradient(135deg,#ECFDF3,#FFFFFF)">
+      <div class="card" style="text-align:center;background:linear-gradient(135deg,#EDF5DC,#FFFFFF)">
         <span class="tag t-ok" style="margin-bottom:6px">${ic('check', 14, 'currentColor', 3)} ${r.relaxed ? 'ผ่านเกณฑ์เดินฟื้นตัว (Talk Test)' : 'ผ่านเกณฑ์เดินจริง'}${r.sim ? ' (จำลอง)' : ''}</span>
         <h1 class="h" style="font-size:1.95rem;margin:0;color:var(--god)">${r.xpGain ? 'ภารกิจวันนี้สำเร็จ' : 'บันทึกการเดินแล้ว'}</h1>
         <div class="sub" style="font-size:1.05rem;margin-top:4px">เดินรวม ${fmtMin(r.durationSec)} · <b>${nf(r.steps)} ก้าว</b>${r.together ? ' · เดินกับลุงชัย' : ''}</div>
       </div>
       ${r.talkWarn ? '<div class="note warn">รอบนี้รู้สึกหอบจนพูดไม่เป็นประโยค ครั้งหน้าลองเดินให้ช้าลงอีกนิดและพักบ่อยขึ้นนะคะ</div>' : ''}
       ${heroCard(pose, motion, lv, st, into, r.levelUp ? (r.stageUp ? `โตขึ้นเป็น "${st.name}"` : `เลเวลอัป เลเวล ${lv}`) : (r.xpGain ? `+${r.xpGain} แต้ม` : S.today.done ? 'เดินเพิ่ม เก่งมาก' : `อีก ${left} นาทีครบภารกิจ`))}
-      <div class="card"><div class="row" style="gap:8px;margin-bottom:6px">${ic('shield', 24, '#15803D')}<b class="h" style="font-size:1.15rem">ผลตรวจ ${all.length} ข้อ</b></div>${rows}</div>
+      <div class="card"><div class="row" style="gap:8px;margin-bottom:6px">${ic('shield', 24, '#55840A')}<b class="h" style="font-size:1.15rem">ผลตรวจ ${all.length} ข้อ</b></div>${rows}</div>
       <div class="card"><div class="h" style="font-size:1.15rem;margin-bottom:4px">หลังเดินรู้สึกอย่างไร</div>
         <div class="sub" style="font-size:.95rem;margin-bottom:10px">ถ้าเหนื่อย 2 ครั้งติด ระบบจะลดเวลาภารกิจให้เอง (ไม่ต่ำกว่า 5 นาที)</div>
         <div class="grid3">${['fun', 'neutral', 'tired'].map((f) => `<button class="feel" data-feel="${f}" aria-pressed="${r.feeling === f}">${face(f)}<b>${FEEL_SHORT[f]}</b></button>`).join('')}</div></div>
       <button class="btn go" data-act="share">${ic('team', 26, '#fff')} ให้เพื่อนในก๊วนเห็น</button>
-      <div class="grid2"><button class="btn ghost sm" data-go="me">${ic('sprout', 22, '#B45309')} ดูตัวละคร</button><button class="btn ghost sm" data-go="step">กลับหน้าแรก</button></div>
+      <div class="grid2"><button class="btn ghost sm" data-go="me">${ic('sprout', 22, '#6E530E')} ดูตัวละคร</button><button class="btn ghost sm" data-go="step">กลับหน้าแรก</button></div>
     </section>`;
   }
   const kind = r.gaitOk ? 'data' : r.reason === 'short' ? 'short' : 'shake';
@@ -452,7 +471,7 @@ V.done = () => {
   return `<section class="view">
     <div class="card" style="text-align:center;background:#FFF5F6;border-color:#FECDD3">
       <span class="tag t-no" style="margin-bottom:6px">${ic('x', 14, 'currentColor', 3)} ไม่ผ่านเกณฑ์${r.sim ? ' (จำลอง)' : ''}</span>
-      <h1 class="h" style="font-size:1.75rem;margin:0;color:#9F1D39">ครั้งนี้ยังไม่นับ</h1>
+      <h1 class="h" style="font-size:1.75rem;margin:0;color:#8C4734">ครั้งนี้ยังไม่นับ</h1>
       <div class="sub" style="margin-top:4px;color:#7F1D33">${msg[1]}</div>
     </div>
     <div class="hero st${stage().stage}"><div class="sunb"></div><div class="hill"></div><div class="hill b"></div>
@@ -475,50 +494,14 @@ V.history = () => {
     <div class="top">${back('step')}<div style="flex:1;min-width:0"><h1 class="h title">ประวัติการเดิน</h1></div>${tools()}</div>
     <div class="grid3">${stat(counted.length, 'ครั้งที่นับ')}${stat(mins, 'นาที')}${stat(nf(steps), 'ก้าว')}</div>
     <div class="card section-card"><div class="sec-header"><h2 class="sec-title">7 วันล่าสุด</h2></div>${weekChart(p, S.user.dailyGoal)}</div>
-    ${rejected ? `<div class="note row" style="background:#FFF1F2;color:#9F1D39;border:1px solid #FECDD3">${ic('shield', 24, '#E11D48')}<span>ไม่นับ <b>${rejected} ครั้ง</b> ใน 7 วัน เพราะเขย่ามือหรือเดินสั้นกว่าเกณฑ์</span></div>` : ''}
+    ${rejected ? `<div class="note row" style="background:#FFF1F2;color:#8C4734;border:1px solid #FECDD3">${ic('shield', 24, '#A65B46')}<span>ไม่นับ <b>${rejected} ครั้ง</b> ใน 7 วัน เพราะเขย่ามือหรือเดินสั้นกว่าเกณฑ์</span></div>` : ''}
     <div class="card section-card"><div class="sec-header" style="margin-bottom:6px"><h2 class="sec-title">ทั้งหมด ${S.log.length} รายการ</h2></div>
       <div class="sess-list">${S.log.slice().reverse().map(sessRow).join('') || '<div class="sub">ยังไม่มีการเดิน</div>'}</div></div>
     <div class="sample">เก็บเฉพาะจำนวนก้าว เวลา และความรู้สึก · ไม่เก็บพิกัด GPS</div>
   </section>`;
 };
 
-V.device = () => {
-  const s = S.device, bt = 'bluetooth' in navigator;
-  speech = `ตัวหนีบนับก้าว ${S.user.deviceId} ข้อมูลตัวอย่าง แบตเตอรี่ ${s.battery} เปอร์เซ็นต์`;
-  const rule = (t) => `<div class="check"><span class="ok">${ic('check', 15, 'currentColor', 3)}</span><span>${t}</span></div>`;
-  const srv = serverOnline ? `ออนไลน์${serverInfo?.count != null ? ` · บันทึกแล้ว ${serverInfo.count} ครั้ง` : ''}` : 'ออฟไลน์ (ตรวจในเครื่อง)';
-  return `<section class="view">
-    ${sampleBar()}
-    <div class="top">${back('step')}<div style="flex:1;min-width:0"><h1 class="h title">ตัวหนีบนับก้าว</h1></div>${tools()}</div>
-    <div class="card row" style="gap:18px;background:linear-gradient(135deg,#ECFDF3,#FFFFFF);border:1.5px solid #BBF7D0">
-      <svg width="90" height="114" viewBox="0 0 86 110" aria-hidden="true" style="flex:none"><rect x="12" y="6" width="62" height="98" rx="31" fill="#fff" stroke="#86EFAC" stroke-width="3.5"/><circle cx="43" cy="48" r="21" fill="#DCFCE7"/><circle cx="43" cy="48" r="13" fill="#15803D"/><rect x="34" y="82" width="18" height="6" rx="3" fill="#4ADE80"/></svg>
-      <div style="line-height:1.55;min-width:0">
-        <span class="tag s" style="margin-bottom:4px">ข้อมูลตัวอย่าง · ตัวหนีบยังไม่ส่งข้อมูลจริง</span>
-        <div class="h" style="font-size:1.35rem">${esc(S.user.deviceId)}</div>
-        <span class="batt" style="color:var(--god);font-weight:700"><i><b style="width:${s.battery * 0.22}px"></b></i>แบตเตอรี่ ${s.battery}%</span>
-      </div>
-    </div>
-    <div class="card"><div class="h" style="font-size:1.15rem;margin-bottom:12px">ข้อมูลเดินทางอย่างไร</div>
-      <div class="flow">
-        <div class="n"><span class="ico">${ic('clip', 28)}</span><b>ตัวหนีบที่เอว</b><span class="sub" style="font-size:.9rem">นับก้าว + เซ็น</span></div><span class="ar">${ic('arrow', 22)}</span>
-        <div class="n"><span class="ico" style="background:var(--suns);color:var(--sunt)">${ic('home', 28)}</span><b>สถานีที่บ้าน</b><span class="sub" style="font-size:.9rem">รับบลูทูธ</span></div><span class="ar">${ic('arrow', 22)}</span>
-        <div class="n"><span class="ico" style="background:var(--skys);color:var(--skyd)">${ic('server', 28)}</span><b>เซิร์ฟเวอร์</b><span class="sub" style="font-size:.9rem">ตรวจลายเซ็น</span></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="kv"><span class="sub">สถานีรับข้อมูล</span><b>${esc(s.hub)}</b></div>
-      <div class="kv"><span class="sub">ส่งล่าสุด</span><b>${ago(s.lastSyncAt)}</b></div>
-      <div class="kv"><span class="sub">เลขลำดับข้อมูล</span><b class="tnum">${S.seq}</b></div>
-      <div class="kv"><span class="sub">ลายเซ็น</span><b>HMAC-SHA256</b></div>
-      <div class="kv"><span class="sub">เซิร์ฟเวอร์</span><b id="srv-info" style="color:${serverOnline ? 'var(--go)' : 'var(--sunt)'}">${srv}</b></div>
-    </div>
-    <div class="card"><div class="row" style="gap:8px;margin-bottom:6px">${ic('shield', 24, '#15803D')}<b class="h" style="font-size:1.15rem">นับเป็นการเดินจริงเมื่อผ่านทุกข้อ</b></div>
-      ${rule(`เดิน ${RULES.cadenceMin}–${RULES.cadenceMax} ก้าวต่อวินาที`)}${rule('จังหวะสม่ำเสมอ ไม่ใช่การเขย่า')}${rule(`เดินติดกันอย่างน้อย ${RULES.minContinuousSec / 60} นาที`)}${rule('ไม่เกิน 150 ก้าวต่อนาที')}${rule('มีลายเซ็นของตัวหนีบ ส่งซ้ำไม่ได้')}${rule('โหมดพักฟื้น / ไม้เท้า / วอล์กเกอร์: ผ่อนปรนใช้เวลาเดิน + Talk Test')}
-      <p class="sub" style="margin:8px 0 0">เกณฑ์ตั้งจากการจำลอง (ค่าออกแบบ) ต้องปรับจากการทดลองกับผู้สูงอายุจริง</p></div>
-    ${bt ? `<button class="btn blue" data-act="ble">${ic('bt', 24, '#fff')} จับคู่ตัวหนีบทางบลูทูธ</button>` : `<div class="note">${ic('info', 20)} เบราว์เซอร์นี้เชื่อมบลูทูธโดยตรงไม่ได้ (เช่น iPhone และ Firefox) ใช้สถานีรับข้อมูลที่บ้านแทน</div>`}
-    <button class="btn ghost sm" data-act="buzz">${ic('bell', 22)} ทดสอบให้ตัวหนีบสั่น (จำลอง)</button>
-  </section>`;
-};
+V.device = () => V.step();
 
 /* ================================================================ ส่วนที่ 2 · ตัวละคร (สุขภาพใจ) */
 V.me = () => {
@@ -542,9 +525,9 @@ V.me = () => {
     ${brainPromoCard()}
     <div class="card col" style="gap:14px">
       <div class="sec-header" style="margin-bottom:0"><h2 class="sec-title">สัปดาห์นี้</h2></div>
-      ${stat('feet', 'เดิน', `${wk}/${S.user.weeklyGoal} นาที`, (wk / Math.max(1, S.user.weeklyGoal)) * 100, '#16A34A')}
-      ${stat('smile', 'รู้สึกสนุก', `${fun}/5 ครั้งล่าสุด`, fun * 20, '#D97706')}
-      ${stat('team', 'เดินกับเพื่อน', `${S.togetherCount} ครั้ง`, S.togetherCount * 25, '#2563EB')}
+      ${stat('feet', 'เดิน', `${wk}/${S.user.weeklyGoal} นาที`, (wk / Math.max(1, S.user.weeklyGoal)) * 100, '#73A617')}
+      ${stat('smile', 'รู้สึกสนุก', `${fun}/5 ครั้งล่าสุด`, fun * 20, '#8C6B16')}
+      ${stat('team', 'เดินกับเพื่อน', `${S.togetherCount} ครั้ง`, S.togetherCount * 25, '#3B7A6C')}
     </div>
     ${!isSeatedOnlyMode() ? `<button class="btn go" data-act="start">${ic('feet', 28, '#fff')} ไปเดินให้ตัวละครโต</button>` : ''}
     ${recentFeel.length ? `<div class="card section-card"><div class="sec-header"><h2 class="sec-title">ความรู้สึกหลังเดิน</h2><span class="sub" style="font-size:.95rem">${recentFeel.length} ครั้งล่าสุด</span></div>
@@ -590,27 +573,27 @@ V.team = () => {
     <div class="top"><div class="col" style="gap:2px;min-width:0"><h1 class="h title">${esc(S.team.name)}</h1><div class="sub">${S.team.members.length} คน${hasScore ? ` · อันดับ ${rank} ของตำบล` : ' · กำลังพักผ่อน'} · วันนี้เดินแล้ว ${walked.length} คน${frozenCount ? ` · พักฟื้น ${frozenCount} คน` : ''}</div></div>${tools()}</div>
     <div class="scene"><div class="path"></div><div style="position:absolute;left:22px;top:20px;width:48px;height:48px;border-radius:50%;background:#FFE28A;box-shadow:0 0 0 10px rgba(255,226,138,.3)"></div>
       <div class="row">${S.team.members.slice(0, 6).map((m) => `<div class="member"><div style="display:flex;justify-content:center;height:96px;align-items:flex-end">${sprite(m.frozen ? 'sleep' : m.today ? m.look : 'sleep', 92)}</div>${m.frozen ? `<span class="badge" style="background:var(--sky)">${ic('heart', 13, '#fff', 3)}</span>` : m.today ? `<span class="badge">${ic('check', 13, '#fff', 3.4)}</span>` : ''}<div class="nm">${esc(m.name)}</div><div class="nm-sub" style="${m.frozen ? 'color:var(--skyd)' : ''}">${m.frozen ? 'พักฟื้น' : m.today ? 'เดินแล้ว' : 'รอเดิน'}</div></div>`).join('')}</div></div>
-    <button class="card row" data-go="league" style="width:100%;text-align:left;gap:16px;background:linear-gradient(135deg,#EFF6FF,#FFFFFF);border:1.5px solid #BFDBFE">
-      ${ring(hasScore ? mine.score / 100 : 0, 96, 10, '#2F6BFF', `<span class="h tnum" style="font-size:${hasScore ? '1.55rem' : '1rem'};color:var(--skyd)">${hasScore ? Math.round(mine.score) : 'พักผ่อน'}</span><span class="sub" style="font-size:.9rem">${hasScore ? 'คะแนน' : 'ทั้งก๊วน'}</span>`)}
+    <button class="card row" data-go="league" style="width:100%;text-align:left;gap:16px;background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:1.5px solid #BFDBFE">
+      ${ring(hasScore ? mine.score / 100 : 0, 96, 10, '#3B7A6C', `<span class="h tnum" style="font-size:${hasScore ? '1.55rem' : '1rem'};color:var(--skyd)">${hasScore ? Math.round(mine.score) : 'พักผ่อน'}</span><span class="sub" style="font-size:.9rem">${hasScore ? 'คะแนน' : 'ทั้งก๊วน'}</span>`)}
       <span style="flex:1;line-height:1.45;min-width:0"><b class="h" style="font-size:1.2rem;font-weight:700">${hasScore ? `อันดับ ${rank} ของตำบล` : 'ก๊วนกำลังพักผ่อน'}</b><br>
         <span class="sub">${hasScore && otherWithScore.length ? `7 วันล่าสุด · ${rank === 1 ? `นำ${esc(otherWithScore[0].name)} ${Math.round(gap)} คะแนน` : `ตามอันดับ 1 อยู่ ${Math.round(gap)} คะแนน`}` : 'สมาชิกที่พักฟื้นถูกยกเว้นจากตัวหาร ไม่ทำให้คะแนนก๊วนตก'}</span></span>
       <span class="db-link" style="color:var(--skyd)">${ic('chev', 22)}</span>
     </button>
-    ${frozenCount ? `<div class="note row" style="background:var(--skys);color:var(--skyd);border:1px solid #93C5FD">${ic('shield', 22, '#1E40AF')}<span>สมาชิกที่พักฟื้น (${frozenCount} คน) ได้รับการยกเว้นจากตัวหารคะแนนก๊วน และยังส่งเสียงชมให้เพื่อนได้ตามปกติค่ะ</span></div>` : ''}
-    ${mt ? `<div class="note row" style="background:var(--skys);color:var(--skyd);border:1px solid #93C5FD">${ic('clock', 26, '#1E40AF')}<span><b>นัดเดินพรุ่งนี้ ${esc(mt)}</b><br>(ต้นแบบ) บันทึกในเครื่องนี้ · ระบบจริงจะแจ้งทุกคนในก๊วน</span></div>` : ''}
-    <div class="note row" style="background:var(--suns);border:1px solid #FDE68A"><span class="stack">${walked.slice(0, 3).map((m) => head(m.head, 40)).join('')}</span>
+    ${frozenCount ? `<div class="note row" style="background:var(--skys);color:var(--skyd);border:1px solid #A8CEC5">${ic('shield', 22, '#225449')}<span>สมาชิกที่พักฟื้น (${frozenCount} คน) ได้รับการยกเว้นจากตัวหารคะแนนก๊วน และยังส่งเสียงชมให้เพื่อนได้ตามปกติค่ะ</span></div>` : ''}
+    ${mt ? `<div class="note row" style="background:var(--skys);color:var(--skyd);border:1px solid #A8CEC5">${ic('clock', 26, '#225449')}<span><b>นัดเดินพรุ่งนี้ ${esc(mt)}</b><br>(ต้นแบบ) บันทึกในเครื่องนี้ · ระบบจริงจะแจ้งทุกคนในก๊วน</span></div>` : ''}
+    <div class="note row" style="background:var(--suns);border:1px solid #E3D9AE"><span class="stack">${walked.slice(0, 3).map((m) => head(m.head, 40)).join('')}</span>
       <span style="line-height:1.45"><b>เช้านี้เดินด้วยกัน ${S.team.togetherMin} นาที</b><br><span style="color:var(--sunt)">ได้โบนัสเดินด้วยกัน</span></span></div>
     <button class="btn go" data-act="meet">${ic('clock', 26, '#fff')} ${mt ? 'เปลี่ยนเวลานัดเดิน' : 'นัดเพื่อนเดินพรุ่งนี้'}</button>
     <div class="grid2">
-      <button class="btn ghost sm" data-act="cheer">${ic('star', 22, '#D97706')} ส่งเสียงชม</button>
-      <button class="btn ghost sm" data-act="nudge" ${notYet.length ? '' : 'disabled'}>${ic('team', 22, '#2F6BFF')} ${notYet.length ? `ชวน${esc(notYet[notYet.length - 1].name)}` : 'เดินครบทุกคนแล้ว'}</button>
+      <button class="btn ghost sm" data-act="cheer">${ic('star', 22, '#8C6B16')} ส่งเสียงชม</button>
+      <button class="btn ghost sm" data-act="nudge" ${notYet.length ? '' : 'disabled'}>${ic('team', 22, '#3B7A6C')} ${notYet.length ? `ชวน${esc(notYet[notYet.length - 1].name)}` : 'เดินครบทุกคนแล้ว'}</button>
     </div>
     <div class="card section-card">
       <div class="sec-header" style="margin-bottom:6px"><h2 class="sec-title">ความเคลื่อนไหวในก๊วน</h2></div>
       <div>${S.team.feed.slice(0, 5).map((f) => `<div class="feed">${head(f.head, 42)}<div style="flex:1;min-width:0"><b>${esc(f.who)}</b> <span>${esc(f.text)}</span></div><span class="tm">${esc(f.time)} น.</span></div>`).join('')}</div>
     </div>
     <div class="grid2">
-      <button class="card col" data-go="invite" style="text-align:left;gap:6px">${ic('team', 28, '#2F6BFF')}<b class="h" style="font-weight:700">ชวนเพื่อนบ้าน</b><span class="sub" style="font-size:.95rem">สแกนคิวอาร์ตอนเจอกัน</span></button>
+      <button class="card col" data-go="invite" style="text-align:left;gap:6px">${ic('team', 28, '#3B7A6C')}<b class="h" style="font-weight:700">ชวนเพื่อนบ้าน</b><span class="sub" style="font-size:.95rem">สแกนคิวอาร์ตอนเจอกัน</span></button>
       <button class="card col" data-go="family" style="text-align:left;gap:6px">${ic('heart', 28, '#E5486B')}<b class="h" style="font-weight:700">มุมลูกหลาน</b><span class="sub" style="font-size:.95rem">${S.requests.length ? `คำขอเข้าก๊วน ${S.requests.length} รายการ` : 'ดูความคืบหน้า'}</span></button>
     </div>
     <div class="sample">ข้อมูลก๊วนเป็นตัวอย่าง (ต้นแบบยังไม่มีบัญชีผู้ใช้)</div>
@@ -620,7 +603,7 @@ V.team = () => {
 V.league = () => {
   const teams = allTeams(), scored = teams.filter((t) => t.score !== null), top = scored.slice(0, 3), mine = teams.find((t) => t.mine);
   const order = [top[1], top[0], top[2]].filter(Boolean);
-  const col = { 0: 'linear-gradient(180deg,#FDE047,#F59E0B)', 1: 'linear-gradient(180deg,#E2E8F0,#CBD5E1)', 2: 'linear-gradient(180deg,#FED7AA,#F97316)' };
+  const col = { 0: 'linear-gradient(180deg,#FDE047,#9E7B1E)', 1: 'linear-gradient(180deg,#E2E8F0,#CBD5E1)', 2: 'linear-gradient(180deg,#FED7AA,#F97316)' };
   speech = top[0] ? `ลีกตำบล อันดับ 1 ${top[0].name} ${Math.round(top[0].score)} คะแนน` : 'ลีกตำบล';
   return `<section class="view">
     ${sampleBar()}
@@ -629,16 +612,16 @@ V.league = () => {
       <div class="podium">${order.map((t) => {
         const i = scored.indexOf(t), h = [150, 118, 96][i];
         return `<div class="pc">${sprite(i === 0 ? 'happy' : i === 1 ? 'greet' : 'cute', i === 0 ? 94 : 78)}<div class="h" style="font-size:.98rem;text-align:center;margin:4px 0">${esc(t.name)}</div>
-          <div class="blk" style="height:${h}px;background:${col[i]};${t.mine ? 'box-shadow:0 0 0 3px #2563EB inset' : ''}"><span class="h tnum" style="font-size:1.85rem;color:#1E293B">${Math.round(t.score)}</span><span style="font-size:.9rem;font-weight:700;color:#334155">อันดับ ${i + 1}</span></div></div>`;
+          <div class="blk" style="height:${h}px;background:${col[i]};${t.mine ? 'box-shadow:0 0 0 3px #3B7A6C inset' : ''}"><span class="h tnum" style="font-size:1.85rem;color:#1E293B">${Math.round(t.score)}</span><span style="font-size:.9rem;font-weight:700;color:#334155">อันดับ ${i + 1}</span></div></div>`;
       }).join('')}</div>
       <div style="border-top:1px solid var(--line);padding-top:10px;margin-top:8px">${teams.slice(3).map((t, i) => `<div class="row" style="justify-content:space-between;padding:6px 4px"><span><b>อันดับ ${i + 4}</b> · ${esc(t.name)}</span><b class="h tnum">${t.score === null ? 'พักผ่อน' : Math.round(t.score)}</b></div>`).join('')}</div>
     </div>
-    <div class="card"><div class="row" style="gap:8px">${ic('scale', 22, '#1E40AF')}<b class="h" style="font-size:1.15rem">คะแนนยุติธรรม คนเดินช้าและคนพักฟื้นไม่ถ่วงก๊วน</b></div>
+    <div class="card"><div class="row" style="gap:8px">${ic('scale', 22, '#225449')}<b class="h" style="font-size:1.15rem">คะแนนยุติธรรม คนเดินช้าและคนพักฟื้นไม่ถ่วงก๊วน</b></div>
       <p class="sub" style="font-size:.98rem;margin:6px 0 10px">แต่ละคนมีเป้าของตัวเอง เดินครบเป้าได้ 100 เท่ากัน · สมาชิกที่อยู่ในโหมดพักฟื้นจะถูกยกเว้นจากตัวหารชั่วคราว</p>
       ${mine.members.map((m) => {
         if (m.frozen) return `<div class="lrow"><span style="width:70px;font-weight:700">${esc(m.name)}</span><span class="tag" style="background:var(--skys);color:var(--skyd);flex:1;justify-content:center">กำลังพักฟื้น · ยกเว้นจากตัวหาร</span></div>`;
         const sc = memberScore(m.minutes, m.goal);
-        return `<div class="lrow"><span style="width:70px;font-weight:700">${esc(m.name)}</span><span class="sub tnum" style="width:82px">${m.minutes}/${m.goal}</span><div class="bar"><i style="width:${sc}%;background:#2563EB"></i></div><b class="tnum" style="width:48px;text-align:right">${sc.toFixed(sc % 1 ? 1 : 0)}</b></div>`;
+        return `<div class="lrow"><span style="width:70px;font-weight:700">${esc(m.name)}</span><span class="sub tnum" style="width:82px">${m.minutes}/${m.goal}</span><div class="bar"><i style="width:${sc}%;background:#3B7A6C"></i></div><b class="tnum" style="width:48px;text-align:right">${sc.toFixed(sc % 1 ? 1 : 0)}</b></div>`;
       }).join('')}
       <div class="row" style="justify-content:space-between;border-top:1px solid #EEF1ED;margin-top:10px;padding-top:10px"><b>เฉลี่ยสมาชิกที่ไม่ได้พักฟื้น</b><b class="h tnum" style="color:var(--skyd);font-size:1.2rem">${mine.score === null ? 'ก๊วนกำลังพักผ่อน' : `${mine.score.toFixed(1)} ≈ ${Math.round(mine.score)}`}</b></div>
     </div>
@@ -663,15 +646,15 @@ V.invite = () => {
     ${sampleBar()}
     <div class="top">${back('team')}<div style="flex:1;min-width:0"><h1 class="h title">ชวนเพื่อนบ้าน</h1></div>${tools()}</div>
     <div class="card" style="display:flex;flex-direction:column;align-items:center;gap:8px;padding:22px 16px">
-      <div style="padding:12px;border-radius:20px;box-shadow:0 0 0 2px #DBEAFE inset;background:#fff">${inviteLeft > 0 ? pseudoQr(7 + Math.floor(Date.now() / 600000)) : '<div style="width:190px;height:190px;display:flex;align-items:center;justify-content:center" class="sub">หมดอายุแล้ว</div>'}</div>
+      <div style="padding:12px;border-radius:20px;box-shadow:0 0 0 2px #DFEFEA inset;background:#fff">${inviteLeft > 0 ? pseudoQr(7 + Math.floor(Date.now() / 600000)) : '<div style="width:190px;height:190px;display:flex;align-items:center;justify-content:center" class="sub">หมดอายุแล้ว</div>'}</div>
       <div class="sample">(ต้นแบบ) คิวอาร์ตัวอย่าง ยังสแกนจริงไม่ได้</div>
       <div class="h" style="font-size:1.25rem;text-align:center">ให้เพื่อนสแกนตอนเจอกัน</div>
       ${inviteLeft > 0 ? `<span class="pill" style="background:var(--suns);color:var(--sunt)">${ic('clock', 18, '#9A4D00')} หมดอายุใน <span id="inv-left" class="tnum">${mmss(inviteLeft)}</span></span>` : '<button class="btn go sm" data-act="newqr">สร้างคิวอาร์ใหม่</button>'}
     </div>
     <button class="btn ghost sm" data-act="line" style="justify-content:flex-start;text-align:left"><span style="width:38px;height:38px;border-radius:12px;background:#06C755;display:flex;align-items:center;justify-content:center;flex:none">${ic('chat', 20, '#fff')}</span> ให้ลูกหลานส่งลิงก์เชิญทาง LINE</button>
-    <button class="btn ghost sm" data-act="nophone" style="justify-content:flex-start;text-align:left"><span style="width:38px;height:38px;border-radius:12px;background:var(--leafs);display:flex;align-items:center;justify-content:center;flex:none">${ic('clip', 20, '#15803D')}</span> เพื่อนไม่มีมือถือ ใช้ตัวหนีบอย่างเดียว</button>
-    <div class="note" style="background:var(--skys)"><div class="row" style="gap:8px;margin-bottom:4px">${ic('shield', 24, '#2F6BFF')}<b class="h" style="font-size:1.1rem">ทำไมก๊วนปลอดภัยกว่าแชตทั่วไป</b></div>
-      ${[['search', 'คนแปลกหน้าค้นหาก๊วนไม่เจอ'], ['star', 'ส่งได้เฉพาะเสียงชมที่ตั้งไว้'], ['nolink', 'ไม่มีลิงก์ ไม่มีการโอนเงิน'], ['heart', 'ลูกหลานหรือ อสม. อนุมัติสมาชิกใหม่'], ['team', 'ก๊วนละไม่เกิน 8 คน']].map(([i, t]) => `<div class="row" style="gap:8px;padding-top:6px">${ic(i, 20, '#1E40AF', 2.2)}<span>${t}</span></div>`).join('')}</div>
+    <button class="btn ghost sm" data-act="nophone" style="justify-content:flex-start;text-align:left"><span style="width:38px;height:38px;border-radius:12px;background:var(--leafs);display:flex;align-items:center;justify-content:center;flex:none">${ic('clip', 20, '#55840A')}</span> เพื่อนไม่มีมือถือ ใช้ตัวหนีบอย่างเดียว</button>
+    <div class="note" style="background:var(--skys)"><div class="row" style="gap:8px;margin-bottom:4px">${ic('shield', 24, '#3B7A6C')}<b class="h" style="font-size:1.1rem">ทำไมก๊วนปลอดภัยกว่าแชตทั่วไป</b></div>
+      ${[['search', 'คนแปลกหน้าค้นหาก๊วนไม่เจอ'], ['star', 'ส่งได้เฉพาะเสียงชมที่ตั้งไว้'], ['nolink', 'ไม่มีลิงก์ ไม่มีการโอนเงิน'], ['heart', 'ลูกหลานหรือ อสม. อนุมัติสมาชิกใหม่'], ['team', 'ก๊วนละไม่เกิน 8 คน']].map(([i, t]) => `<div class="row" style="gap:8px;padding-top:6px">${ic(i, 20, '#225449', 2.2)}<span>${t}</span></div>`).join('')}</div>
   </section>`;
 };
 
@@ -685,11 +668,11 @@ V.family = () => {
     <div class="card"><div class="row" style="justify-content:space-between;gap:8px"><b class="h" style="font-size:1.15rem">7 วันล่าสุด</b><span class="tag t-ok">เดิน ${walked} วัน</span></div>
       <div class="days" style="margin-top:10px">${f.days.map((d, i) => `<div><i class="${d === 1 ? 'y' : d === -1 ? 't' : ''}">${d === 1 ? ic('check', 16, '#fff', 3.2) : ''}</i>${labels[i]}</div>`).join('')}</div>
       <div class="row" style="justify-content:space-between;margin-top:14px;gap:8px"><span>เดินรวม <b>${f.minutes} นาที</b> (เป้า ${f.goal} นาที/สัปดาห์)</span><b class="tnum" style="color:var(--skyd)">${Math.round(memberScore(f.minutes, f.goal))}%</b></div>
-      <div class="bar" style="margin-top:6px"><i style="width:${memberScore(f.minutes, f.goal)}%;background:#2563EB"></i></div>
+      <div class="bar" style="margin-top:6px"><i style="width:${memberScore(f.minutes, f.goal)}%;background:#3B7A6C"></i></div>
       <p class="sub" style="font-size:.98rem;margin:10px 0 0">หลังเดินรู้สึกสนุก ${f.fun} ครั้ง · เหนื่อย ${f.tired} ครั้ง · ภารกิจวันละ ${f.missionMin} นาที</p></div>
     <div class="grid2"><button class="btn blue" data-act="voice" style="flex-direction:column;gap:4px;min-height:96px;font-size:1.05rem">${ic('mic', 26, '#fff')}อัดเสียงให้กำลังใจ</button>
-      <button class="btn ghost" data-act="mission" style="flex-direction:column;gap:4px;min-height:96px;font-size:1.05rem">${ic('flag', 26, '#2F6BFF')}ปรับเวลาภารกิจ</button></div>
-    ${S.requests.length ? `<div class="card" style="border:1.5px solid #FDE68A;background:#FFFBEB"><div class="row" style="gap:8px;font-weight:700;color:#92400E">${ic('shield', 20, '#92400E')} คำขอเข้าก๊วนใหม่</div>
+      <button class="btn ghost" data-act="mission" style="flex-direction:column;gap:4px;min-height:96px;font-size:1.05rem">${ic('flag', 26, '#3B7A6C')}ปรับเวลาภารกิจ</button></div>
+    ${S.requests.length ? `<div class="card" style="border:1.5px solid #E3D9AE;background:#F8F5E6"><div class="row" style="gap:8px;font-weight:700;color:#664D0B">${ic('shield', 20, '#664D0B')} คำขอเข้าก๊วนใหม่</div>
       ${S.requests.map((r, i) => `<div class="row" style="margin-top:10px">${head('head_think', 44)}<div style="flex:1;line-height:1.4"><b>${esc(r.name)}</b><br><span class="sub">${esc(r.by)}ชวนเมื่อเช้า</span></div></div>
       <div class="grid2" style="margin-top:12px"><button class="btn go sm" data-approve="${i}">${ic('check', 20, '#fff', 3)} อนุมัติ</button><button class="btn ghost sm" data-deny="${i}">ไม่รู้จัก</button></div>`).join('')}</div>` : '<div class="card sub">ไม่มีคำขอเข้าก๊วนใหม่</div>'}
     <div class="note row" style="background:#fff;box-shadow:var(--ring)">${ic('heart', 24, '#E5486B')}<span>ลูกหลานเห็นแค่วันที่เดิน นาที และความรู้สึก ไม่เห็นตำแหน่ง ไม่เห็นรายละเอียดอาการป่วย และไม่เห็นคำตอบแบบประเมินใจ</span></div>
@@ -707,18 +690,15 @@ V.settings = () => {
     <div class="card col"><b class="h" style="font-size:1.15rem">ขนาดตัวอักษร</b>${seg('size', [['m', 'ปกติ'], ['l', 'ใหญ่'], ['xl', 'ใหญ่มาก']])}</div>
     <div class="card col"><b class="h" style="font-size:1.15rem">เสียงอ่านภาษาไทย</b>${seg('voice', [[true, 'เปิด'], [false, 'ปิด']])}
       <b class="h" style="font-size:1.15rem;margin-top:6px">ภาพเคลื่อนไหว</b>${seg('motion', [[true, 'แสดง'], [false, 'ลดการเคลื่อนไหว']])}</div>
-    <div class="card col"><b class="h" style="font-size:1.15rem">ตัวหนีบนับก้าว</b>
-      <div class="sub">${'bluetooth' in navigator ? 'เบราว์เซอร์นี้จับคู่บลูทูธได้' : 'เบราว์เซอร์นี้เชื่อมบลูทูธไม่ได้ ใช้สถานีรับข้อมูลที่บ้านแทน'}</div>
-      <button class="btn ghost sm" data-go="device">${ic('clip', 22, '#15803D')} ดูตัวหนีบและเกณฑ์ตรวจเดินจริง</button></div>
     <div class="card col"><b class="h" style="font-size:1.15rem">แอปและข้อมูลของฉัน</b>
-      ${installEvt ? `<button class="btn ghost sm" data-act="install">${ic('phone', 22, '#2F6BFF')} ติดตั้งไว้บนหน้าจอหลัก</button>`
+      ${installEvt ? `<button class="btn ghost sm" data-act="install">${ic('phone', 22, '#3B7A6C')} ติดตั้งไว้บนหน้าจอหลัก</button>`
         : ios ? '<div class="note">บน iPhone/iPad: แตะปุ่ม<b>แชร์</b> ใน Safari แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></div>'
           : '<div class="sub">เพิ่มลงหน้าจอหลักได้จากเมนูของเบราว์เซอร์ ใช้ได้แม้ไม่มีเน็ต</div>'}
-      <button class="btn ghost sm" data-act="export">${ic('download', 22, '#15803D')} ดาวน์โหลดข้อมูลของฉัน</button>
+      <button class="btn ghost sm" data-act="export">${ic('download', 22, '#55840A')} ดาวน์โหลดข้อมูลของฉัน</button>
       <a class="btn ghost sm" href="credits#privacy">${ic('lock', 22)} ข้อมูลของฉันเก็บที่ไหน</a></div>
     <div class="card col"><b class="h" style="font-size:1.15rem">โหมดสาธิต</b><span class="sub">ความเร็วเวลาตอนจำลองเดิน</span>${seg('speed', [[1, '×1 เวลาจริง'], [20, '×20'], [60, '×60']])}
       ${isSample() ? `<button class="btn ghost sm" data-act="startMine">${ic('feet', 22)} เลิกดูตัวอย่าง เริ่มใช้ของฉัน</button>` : `<button class="btn ghost sm" data-act="useSample">${ic('refresh', 22)} ดูข้อมูลตัวอย่าง (ป้าแดง)</button>`}
-      <button class="btn ghost sm" data-act="reset" style="color:#9F1D39">${ic('x', 22, '#9F1D39')} ลบข้อมูลทั้งหมดในเครื่องนี้</button></div>
+      <button class="btn ghost sm" data-act="reset" style="color:#8C4734">${ic('x', 22, '#8C4734')} ลบข้อมูลทั้งหมดในเครื่องนี้</button></div>
     <div class="sample">เก็บเฉพาะ ก้าว เวลา ความรู้สึก และผลประเมินสุขภาพ ในเครื่องนี้เท่านั้น · ไม่เก็บ GPS · ไม่เก็บเอกสารทางการแพทย์</div>
   </section>`;
 };
@@ -883,6 +863,7 @@ function newMineState(name) {
   d.assessment = null; d.prevStats = null; d.lastRetestCompare = null;
   d.progress = { ...d.progress, stack: 0, tier: 1, freeze: null, waitingClearance: false, recovery: null, transitionWeek: false, needRetest: false };
   d.activeDates = []; d.strengthDates = []; d.mood = []; d.unwellDates = []; d.brainGames = []; d.cheersLog = []; d.hobbyHistory = [];
+  d.quickLog = { sleep: null, hr: null, bp: null, weight: null, meal: null, mood: null, updatedAt: null };
   d.lastActiveDate = todayKey();
   d.device = { ...d.device, hub: 'สถานีรับข้อมูลที่บ้าน', lastSyncAt: null };
   d.team.members = d.team.members.map((m) => (m.me ? { ...m, name, minutes: 0, goal: 50, today: false, frozen: false } : m));
@@ -898,6 +879,53 @@ const ACT = {
     const order = ['m', 'l', 'xl'], names = { m: 'ขนาดตัวอักษร: ปกติ', l: 'ขนาดตัวอักษร: ใหญ่', xl: 'ขนาดตัวอักษร: ใหญ่มาก' };
     S.settings.size = order[(order.indexOf(S.settings.size) + 1) % order.length] || 'm';
     commit(); applySettings(); render(); toast(names[S.settings.size]);
+  },
+  qMood: () => sheet('วันนี้รู้สึกอย่างไรบ้างคะ', [
+    'สดชื่น มีความสุขมาก',
+    'สบายใจ อารมณ์ดี',
+    'เฉยๆ ปกติ',
+    'ค่อนข้างเหนื่อย ล้า',
+    'ไม่ค่อยสบายใจ',
+  ], (i, label) => {
+    S.quickLog = { ...(S.quickLog || {}), mood: label.split(' ')[0], updatedAt: todayKey() };
+    const sky = i <= 1 ? 'sun' : i === 2 ? 'cloud' : 'rain';
+    S.mood = [...(S.mood || []).filter((m) => m.date !== todayKey()), { date: todayKey(), sky }].slice(-30);
+    commit(); render(); toast(`บันทึกอารมณ์วันนี้: ${label}`);
+  }, 'แตะเลือก 1 ข้อเพื่อบันทึกทันที · ข้อมูลเก็บเฉพาะในเครื่องนี้'),
+  qWeight: () => {
+    const cur = Number(S.quickLog?.weight ?? S.assessment?.input?.weightKg ?? 56);
+    const opts = [cur - 1, cur - 0.5, cur, cur + 0.5, cur + 1].map((v) => Math.max(30, Math.round(v * 10) / 10));
+    sheet(`บันทึกน้ำหนัก (ล่าสุด ${cur.toFixed(1)} กก.)`, opts.map((v) => `${v.toFixed(1)} กก.${v === cur ? ' (เท่าเดิม)' : ''}`), (i) => {
+      S.quickLog = { ...(S.quickLog || {}), weight: opts[i], updatedAt: todayKey() };
+      commit(); render(); toast(`บันทึกน้ำหนัก ${opts[i].toFixed(1)} กก. แล้ว`);
+    }, 'เลือกน้ำหนักที่ใกล้เคียงที่สุดในแตะเดียว');
+  },
+  qBp: () => {
+    const presets = [
+      { label: 'ปกติ · ความดัน 120/78 · ชีพจร 72', bp: '120/78', hr: 72 },
+      { label: 'ดีมาก · ความดัน 115/74 · ชีพจร 68', bp: '115/74', hr: 68 },
+      { label: 'ค่อนข้างสูง · ความดัน 138/86 · ชีพจร 78', bp: '138/86', hr: 78 },
+      { label: 'สูงกว่าปกติ · ความดัน 150/92 · ชีพจร 84', bp: '150/92', hr: 84 },
+      { label: 'ค่อนข้างต่ำ · ความดัน 102/66 · ชีพจร 66', bp: '102/66', hr: 66 },
+    ];
+    sheet('บันทึกความดันและชีพจร', presets.map((x) => x.label), (i) => {
+      S.quickLog = { ...(S.quickLog || {}), bp: presets[i].bp, hr: presets[i].hr, updatedAt: todayKey() };
+      commit(); render(); toast(`บันทึกความดัน ${presets[i].bp} · ชีพจร ${presets[i].hr} แล้ว`);
+    }, 'ข้อมูลใช้ดูแนวโน้มส่วนตัวในเครื่อง ไม่ใช่เครื่องมือแพทย์');
+  },
+  qSleep: () => {
+    const hours = [5, 6, 7, 7.5, 8, 9];
+    sheet('เมื่อคืนนอนหลับกี่ชั่วโมงคะ', hours.map((h) => `${h} ชั่วโมง${h >= 7 && h <= 8 ? ' (กำลังดี)' : ''}`), (i) => {
+      S.quickLog = { ...(S.quickLog || {}), sleep: hours[i], updatedAt: todayKey() };
+      commit(); render(); toast(`บันทึกการนอน ${hours[i]} ชั่วโมงแล้ว`);
+    }, 'การนอน 7–8 ชั่วโมงช่วยให้ร่างกายฟื้นตัวได้ดี');
+  },
+  qMeal: () => {
+    const choices = ['ครบ 3 มื้อ', 'กินผักผลไม้เพิ่ม', 'ดื่มน้ำครบ 6 แก้ว', 'ทานอาหารอ่อน ย่อยง่าย', 'ทานน้อยกว่าปกติ'];
+    sheet('บันทึกอาหารและน้ำดื่มวันนี้', choices, (i) => {
+      S.quickLog = { ...(S.quickLog || {}), meal: choices[i], updatedAt: todayKey() };
+      commit(); render(); toast(`บันทึกอาหารวันนี้: ${choices[i]}`);
+    }, 'แตะเลือก 1 ข้อเพื่อบันทึกไว');
   },
   start: startWalk,
   pause: () => {
@@ -1033,9 +1061,14 @@ function renderIntro(part) {
 }
 
 const DEMO_PAGES = {
-  body: [['step', 'หน้าแรก'], ['plan', 'ท่าวันนี้'], ['check', 'แบบประเมิน'], ['device', 'ตัวหนีบ'], ['history', 'ประวัติ']],
-  mind: [['me', 'ตัวละคร'], ['hobby', 'งานอดิเรก'], ['brain', 'ฝึกสมอง'], ['twoq', 'คุยเรื่องใจ']],
-  social: [['team', 'ก๊วน'], ['league', 'ลีก'], ['invite', 'ชวนเพื่อน'], ['family', 'ลูกหลาน']],
+  body: [['step', 'หน้าแรก', 'home'], ['plan', 'ท่าวันนี้', 'pulse'], ['check', 'แบบประเมิน', 'list'], ['history', 'ประวัติ', 'chart']],
+  mind: [['me', 'ตัวละคร', 'sprout'], ['hobby', 'งานอดิเรก', 'sparkle'], ['brain', 'ฝึกสมอง', 'star'], ['twoq', 'คุยเรื่องใจ', 'smile']],
+  social: [['team', 'ก๊วน', 'team'], ['league', 'ลีก', 'award'], ['invite', 'ชวนเพื่อน', 'chat'], ['family', 'ลูกหลาน', 'heart']],
+};
+const DEMO_GROUPS = {
+  body: ['feet', 'กาย · เดินและสุขภาพ'],
+  mind: ['sprout', 'ใจ · ตัวละครและสมอง'],
+  social: ['team', 'สังคม · ก๊วนและครอบครัว'],
 };
 const DEMO_ACTS = [
   ['walk', 'feet', 'เดินจริงครบภารกิจ', 'ตัวละครฉลอง ได้ 40 แต้ม'],
@@ -1055,7 +1088,7 @@ function renderDemo() {
   const route = lastRoute || 'step', open = demo.classList.contains('open');
   demo.innerHTML = `<button class="demo-toggle" data-demo-toggle aria-expanded="${open}">${ic(open ? 'x' : 'gear', 20, 'currentColor', 2.4)} ${open ? 'ปิดแผงสาธิต' : 'แผงสาธิต'}</button><div class="panel-demo">
     <div class="ph"><div><b>แผงสาธิต v3.1</b></div><span class="srv ${serverOnline ? 'on' : ''}"><i></i>${serverOnline ? 'เซิร์ฟเวอร์ออนไลน์' : 'ออฟไลน์'}</span></div>
-    <div><div class="lbl">ไปที่หน้า</div><div class="chips">${Object.entries(DEMO_PAGES).flatMap(([k, list]) => list.map(([r, t]) => `<button data-part="${k}" data-demo-go="${r}" aria-current="${route === r}"><i></i>${t}</button>`)).join('')}</div></div>
+    <div><div class="lbl">ไปที่หน้า (แบ่งตาม 3 หมวด)</div><div class="demo-groups">${Object.entries(DEMO_PAGES).map(([k, list]) => `<div class="demo-group" data-part="${k}"><div class="dg-head">${ic(DEMO_GROUPS[k][0], 16, 'var(--accent-d)', 2.4)}<span>${DEMO_GROUPS[k][1]}</span></div><div class="chips">${list.map(([r, t, icon]) => `<button data-part="${k}" data-demo-go="${r}" aria-current="${route === r}">${ic(icon, 16, 'var(--accent-d)', 2.3)}<span>${t}</span></button>`).join('')}</div></div>`).join('')}</div></div>
     <div><div class="lbl">จำลองเหตุการณ์ (Recovery v3.1)</div><div class="acts">${DEMO_ACTS.map(([k, i, t, s], n) => `<button class="act ${n ? '' : 'main'}" data-demo="${k}"><span class="ai">${ic(i, 20, 'currentColor', 2.4)}</span><span><b>${t}</b><small>${s}</small></span></button>`).join('')}</div></div>
     <div class="foot-row"><small>ข้อมูลตัวอย่าง · ไม่ใช่เครื่องมือแพทย์</small><button data-act-demo="reset">ลบข้อมูล</button></div>
   </div>`;

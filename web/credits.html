@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#15803D">
+<meta name="theme-color" content="#55840A">
 <meta name="color-scheme" content="light">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,8 +30,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&display=swap" media="print" data-font>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="css/app.css">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/app.css?v=7">
+<link rel="stylesheet" href="css/site.css?v=7">
 <script src="js/boot.js"></script>
 </head>
 <body class="page">
@@ -106,25 +106,11 @@
       </table>
     </section>
 
-    <section aria-labelledby="h-bom">
-      <h2 id="h-bom">อุปกรณ์ที่ใช้ (ต้นแบบ 5 ชุด)</h2>
-      <table class="tbl">
-        <thead><tr><th>ชิ้นส่วน</th><th>จำนวน</th><th>ใช้ทำอะไร</th></tr></thead>
-        <tbody>
-          <tr><td data-label="ชิ้นส่วน">Seeed XIAO nRF52840 Sense</td><td class="num" data-label="จำนวน">5</td><td data-label="ใช้ทำอะไร">ตัวหนีบนับก้าว: เซนเซอร์ความเร่ง บลูทูธ และเซ็นข้อมูล</td></tr>
-          <tr><td data-label="ชิ้นส่วน">แบตเตอรี่ LiPo 200 mAh</td><td class="num" data-label="จำนวน">5</td><td data-label="ใช้ทำอะไร">ไฟเลี้ยงตัวหนีบ</td></tr>
-          <tr><td data-label="ชิ้นส่วน">มอเตอร์สั่นแบบเหรียญ + ทรานซิสเตอร์ + ไดโอด</td><td class="num" data-label="จำนวน">5</td><td data-label="ใช้ทำอะไร">สั่นบอกเมื่อครบภารกิจ และเมื่อเพื่อนชวนเดิน</td></tr>
-          <tr><td data-label="ชิ้นส่วน">ESP32 + จอ ST7789 1.69 นิ้ว</td><td class="num" data-label="จำนวน">2</td><td data-label="ใช้ทำอะไร">สถานีรับข้อมูลที่บ้าน</td></tr>
-        </tbody>
-      </table>
-      <p class="src">งบประมาณรวมโดยประมาณ 4,300–6,550 บาท · ถ้าชิ้นส่วนมาไม่ทัน ใช้ XIAO ESP32-C3 + LSM6DS3 แทน</p>
-    </section>
-
     <section aria-labelledby="h-tech">
       <h2 id="h-tech">เทคโนโลยีและเบราว์เซอร์ที่รองรับ</h2>
       <div class="note-box">
-        <p>เว็บใช้ HTML CSS JavaScript ไม่มีขั้นตอนบิลด์ · เซิร์ฟเวอร์ Node.js และ Cloudflare Workers · ตัวหนีบเขียนด้วย Arduino และใช้กฎตรวจเดินจริงชุดเดียวกับเว็บ</p>
-        <p><b>เบราว์เซอร์ขั้นต่ำ</b> · iOS Safari 15 ขึ้นไป · Chrome / Edge 100 ขึ้นไป · Samsung Internet 18 ขึ้นไป · Firefox 100 ขึ้นไป · การจับคู่บลูทูธใช้ได้เฉพาะ Chrome / Edge / Samsung Internet บน Android และคอมพิวเตอร์</p>
+        <p>เว็บใช้ HTML CSS JavaScript ไม่มีขั้นตอนบิลด์ · เซิร์ฟเวอร์ Node.js และ Cloudflare Workers</p>
+        <p><b>เบราว์เซอร์ขั้นต่ำ</b> · iOS Safari 15 ขึ้นไป · Chrome / Edge 100 ขึ้นไป · Samsung Internet 18 ขึ้นไป · Firefox 100 ขึ้นไป</p>
       </div>
     </section>
 
@@ -132,13 +118,16 @@
       <h2 id="h-notes">ข้อจำกัดที่ต้องรู้</h2>
       <div class="note-box">
         <p>ก้าวรวมใจเป็นระบบส่งเสริมสุขภาพ <b>ไม่ใช่เครื่องมือแพทย์</b> ไม่วินิจฉัย ไม่รักษาโรค ถ้าไม่สบาย ติดต่อแพทย์หรือโทร 1669</p>
-        <p><b>เป็นต้นแบบ</b> · ตัวหนีบยังไม่ส่งข้อมูลก้าวเข้าเว็บ การเดินในเว็บเป็นการจำลอง (ก้าวสร้างจากเวลา) · การส่งเสียงชม นัดเดิน ชวนเพื่อน ลิงก์ LINE และอัดเสียงหลาน ยังไม่ส่งจริง</p>
+        <p><b>เป็นต้นแบบ</b> · การเดินในเว็บเป็นการจำลอง (ก้าวสร้างจากเวลา) · การส่งเสียงชม นัดเดิน ชวนเพื่อน ลิงก์ LINE และอัดเสียงหลาน ยังไม่ส่งจริง</p>
         <p><b>ข้อมูลตัวอย่าง</b> · ป้าแดง ก๊วนบ้านสวน คะแนนลีก และประวัติการเดินตัวอย่าง เป็นข้อมูลสาธิต ไม่ใช่ผลทดลอง</p>
-        <p><b>กุญแจสาธิต</b> · ในโหมดสาธิต เบราว์เซอร์เซ็นข้อมูลแทนตัวหนีบด้วยกุญแจสาธิตที่เปิดเผยอยู่ในหน้าเว็บ ใช้เพื่อแสดงการตรวจลายเซ็นเท่านั้น ระบบจริงกุญแจอยู่ในตัวหนีบและเซิร์ฟเวอร์</p>
-        <p><b>เซิร์ฟเวอร์ออนไลน์ไม่มีฐานข้อมูล</b> · ตรวจลายเซ็นและจำนวนก้าวต่อนาทีได้ แต่ไม่จำว่าเคยรับข้อมูลชุดไหนแล้ว การกันส่งซ้ำจึงทำในเบราว์เซอร์ · ใช้จริงหลายบ้านต้องเพิ่มฐานข้อมูลก่อน</p>
-        <p>ยืนยันได้ว่ามีคนเดินจริง แต่ยืนยันไม่ได้ว่าเป็นใคร · เกณฑ์ตรวจเดินจริงตั้งจากการจำลอง ต้องปรับจากข้อมูลผู้สูงอายุจริง</p>
+        <p><b>เซิร์ฟเวอร์ออนไลน์ไม่มีฐานข้อมูล</b> · ข้อมูลส่วนตัวและบันทึกสุขภาพทั้งหมดเก็บในเบราว์เซอร์ของเครื่องนี้เท่านั้น</p>
       </div>
     </section>
+
+    <div class="doc-actions">
+      <a class="btn-cta" href="app#/step">เปิดแอป</a>
+      <a class="btn-sec" href="./">กลับหน้าแรก</a>
+    </div>
   </div>
 </main>
 

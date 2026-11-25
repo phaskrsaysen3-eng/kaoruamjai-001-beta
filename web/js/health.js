@@ -146,8 +146,8 @@ export function absenceBanner() {
   if (s.progress.freeze || s.absenceDismissedDate === today) return '';
   const ab = detectAbsence(s.lastActiveDate, today, { frozen: !!s.progress.freeze });
   if (!ab.absent) return '';
-  return `<div class="card stack-v" style="background:linear-gradient(135deg,#EFF6FF,#FFFFFF);border:2px solid #93C5FD" role="region" aria-label="เช็กอินหลังหายไปหลายวัน">
-    <div class="row" style="gap:10px">${ic('heart', 26, '#2563EB')}<b class="h" style="font-size:1.18rem;color:var(--skyd)">ยินดีต้อนรับกลับมาค่ะ!</b></div>
+  return `<div class="card stack-v" style="background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:2px solid #A8CEC5" role="region" aria-label="เช็กอินหลังหายไปหลายวัน">
+    <div class="row" style="gap:10px">${ic('heart', 26, '#3B7A6C')}<b class="h" style="font-size:1.18rem;color:var(--skyd)">ยินดีต้อนรับกลับมาค่ะ!</b></div>
     <p style="margin:0">${esc(ab.message)}</p>
     <div class="grid2">
       <button class="btn blue sm" data-h="retroFreeze">ใช่ พักรักษาตัว</button>
@@ -405,8 +405,8 @@ export function viewPlan() {
 
   // แบนเนอร์สถานะโหมดพักฟื้น v3.1 (FROZEN / WAITING_CLEARANCE / RECOVERING / NEED_RETEST)
   if (status === 'WAITING_CLEARANCE' && freeze) {
-    h += `<div class="card stack-v" style="background:var(--suns);color:var(--sunt);border:1.5px solid #F59E0B">
-      <b class="h">${ic('shield', 22, '#92400E')} รอสอบถามแพทย์/เจ้าหน้าที่ก่อนกลับไปท่ายืน (ระดับ 0)</b>
+    h += `<div class="card stack-v" style="background:var(--suns);color:var(--sunt);border:1.5px solid #9E7B1E">
+      <b class="h">${ic('shield', 22, '#664D0B')} รอสอบถามแพทย์/เจ้าหน้าที่ก่อนกลับไปท่ายืน (ระดับ 0)</b>
       <p style="margin:0">เนื่องจากเพิ่ง${esc(FREEZE_REASONS[freeze.reason].label)} เพื่อความปลอดภัย ลองสอบถามคุณหมอ นักกายภาพ หรือ อสม./รพ.สต. ก่อนนะคะ ระหว่างนี้ทำท่าบริหารท่านั่งเบาๆ และส่งกำลังใจให้เพื่อนในก๊วนได้ค่ะ (สแตกไม่ลด และไม่ถ่วงคะแนนก๊วน)</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">ถามแพทย์แล้ว กลับมาเริ่ม</button>
@@ -416,8 +416,8 @@ export function viewPlan() {
   } else if (status === 'FROZEN' && freeze) {
     const fDays = Math.max(0, daysBetween(freeze.since, todayKey()));
     const canUpgrade = !FREEZE_REASONS[freeze.reason]?.needDoctor;
-    h += `<div class="card stack-v" style="background:var(--skys);color:var(--skyd);border:1.5px solid #93C5FD">
-      <b class="h">${ic('heart', 22, '#2563EB')} กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[freeze.reason].label)}</b>
+    h += `<div class="card stack-v" style="background:var(--skys);color:var(--skyd);border:1.5px solid #A8CEC5">
+      <b class="h">${ic('heart', 22, '#3B7A6C')} กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[freeze.reason].label)}</b>
       <p style="margin:0">พักมาแล้ว ${fDays} วัน · พักร่างกายให้เต็มที่นะคะ สแตกความต่อเนื่องถูกเก็บรักษาไว้ไม่ลดลง และไม่ทำให้คะแนนของก๊วนลดลงค่ะ</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">หายดีแล้ว กลับมาออกกำลังกาย</button>
@@ -429,7 +429,7 @@ export function viewPlan() {
     const rec = s.progress.recovery;
     const stall = (rec.stallWeeks | 0) >= RETURN_RULES.stallAlertWeeks;
     h += `<div class="card stack-v" style="background:#F0FDF4;border:1.5px solid #86EFAC">
-      <b class="h" style="color:var(--god)">${ic('sprout', 22, '#15803D')} โหมดค่อยๆ ฟื้นตัว (โซน ${rec.zone}) · ระดับ ${s.progress.tier}${rec.stageCap ? ` · เพดานท่าขั้น ${rec.stageCap}` : ''}</b>
+      <b class="h" style="color:var(--god)">${ic('sprout', 22, '#55840A')} โหมดค่อยๆ ฟื้นตัว (โซน ${rec.zone}) · ระดับ ${s.progress.tier}${rec.stageCap ? ` · เพดานท่าขั้น ${rec.stageCap}` : ''}</b>
       <p class="sub" style="margin:0">${rec.requireRetest
         ? 'เริ่มเบาๆ แบบจับที่จับ (ขั้น A) ปรับตัว 1 สัปดาห์แล้วค่อยทำแบบทดสอบร่างกายใหม่เพื่อให้พอดีกับร่างกายปัจจุบันค่ะ'
         : `สัปดาห์นี้เริ่มเบาๆ ก่อนนะคะ หากฝึกครบ ≥ 2 วัน ไม่ป่วย และเหนื่อยไม่เกิน 1 วัน ระบบจะขยับระดับขึ้นให้ทีละขั้นจนถึงระดับ ${rec.targetTier} ค่ะ`}</p>
@@ -519,12 +519,12 @@ function readinessForm(input) {
 
 function readinessBanner(r) {
   const s = S();
-  const tone = { go: ['var(--leafs)', 'var(--god)', 'พร้อมออกกำลังกาย'], light: ['var(--suns)', 'var(--sunt)', 'วันนี้ทำเบาๆ'], rest: ['var(--skys)', 'var(--skyd)', 'วันนี้พักก่อน'], urgent: ['#FDE7EA', '#8E1B33', 'ต้องได้รับการดูแลทันที'] }[r.status];
+  const tone = { go: ['var(--leafs)', 'var(--god)', 'พร้อมออกกำลังกาย'], light: ['var(--suns)', 'var(--sunt)', 'วันนี้ทำเบาๆ'], rest: ['var(--skys)', 'var(--skyd)', 'วันนี้พักก่อน'], urgent: ['#F5E8E2', '#733929', 'ต้องได้รับการดูแลทันที'] }[r.status];
   if (r.status === 'go' && r.actions.includes('carb_first')) { tone[0] = 'var(--suns)'; tone[1] = 'var(--sunt)'; tone[2] = 'กินของว่างก่อน แล้วค่อยเริ่ม'; }
   const prompt3 = shouldPromptFreeze(s.unwellDates, todayKey());
   return `<div class="card stack-v" style="background:${tone[0]};color:${tone[1]}"><b class="h">${tone[2]}</b>
     ${r.msgs.length ? `<ul class="list">${r.msgs.map((m) => `<li>${esc(m.text)}</li>`).join('')}</ul>` : '<p>ไม่พบสัญญาณที่ต้องระวังวันนี้</p>'}
-    ${r.actions.includes('call1669') || r.actions.includes('hospital_today') ? `<div class="hotline" style="background:#fff;color:#8E1B33"><span class="h">1669</span><span>เจ็บป่วยฉุกเฉิน</span></div>` : ''}
+    ${r.actions.includes('call1669') || r.actions.includes('hospital_today') ? `<div class="hotline" style="background:#fff;color:#733929"><span class="h">1669</span><span>เจ็บป่วยฉุกเฉิน</span></div>` : ''}
     ${prompt3.suggest ? `<div class="note" style="background:#fff;color:var(--skyd)"><b>${esc(prompt3.message)}</b></div>` : ''}
     ${r.actions.includes('freeze_fall') ? `<button class="btn blue sm" data-h="freezeFall">เข้าโหมดพักเพราะล้มทันที (สแตกไม่ลด)</button>` : ''}
     ${r.status === 'rest' && !r.actions.includes('freeze_fall') ? `<button class="btn ghost sm" data-h="freeze">เข้าโหมดพักฟื้น (สแตกไม่ลด · ไม่ถ่วงก๊วน)</button>` : ''}
@@ -601,15 +601,15 @@ export function charPanel() {
       <div class="sub" style="font-size:.9rem">ทดสอบเมื่อ ${new Date(a.date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${due.due || p.needRetest ? '<b style="color:var(--god)">ถึงเวลาทดสอบใหม่แล้ว</b>' : `ทดสอบใหม่ในอีก ${due.inDays} วัน`}</div>
       ${cmpNote}
       <div class="grid2" style="margin-top:10px;text-align:left">
-        <div class="vital-box"><span class="vb-ic">${ic('sparkle', 20, '#D97706')}</span><div class="vb-txt"><span class="vb-lbl">สมอง (MND)</span><b class="vb-val">${mnd.level ? `Lv.${mnd.level}/10` : 'เล่นครบ 3 เกม'}</b></div></div>
-        <div class="vital-box"><span class="vb-ic">${ic('team', 20, '#2563EB')}</span><div class="vb-txt"><span class="vb-lbl">มิตรภาพ (SOC)</span><b class="vb-val">Lv.${soc.level}/10</b></div></div>
+        <div class="vital-box"><span class="vb-ic">${ic('sparkle', 20, '#8C6B16')}</span><div class="vb-txt"><span class="vb-lbl">สมอง (MND)</span><b class="vb-val">${mnd.level ? `Lv.${mnd.level}/10` : 'เล่นครบ 3 เกม'}</b></div></div>
+        <div class="vital-box"><span class="vb-ic">${ic('team', 20, '#3B7A6C')}</span><div class="vb-txt"><span class="vb-lbl">มิตรภาพ (SOC)</span><b class="vb-val">Lv.${soc.level}/10</b></div></div>
       </div>
       <div class="grid2" style="margin-top:10px"><button class="btn go sm" data-go="plan">ท่าวันนี้</button><button class="btn ghost sm" data-h="start">${due.due || p.needRetest ? 'ทดสอบใหม่' : 'ประเมินใหม่'}</button></div></div>
     <div class="card row" style="gap:14px"><div class="stackbadge" aria-hidden="true">${p.stack}</div>
       <div style="flex:1;line-height:1.4"><b class="h">สแตก ${p.stack}/${STACK.max} สัปดาห์</b><br><span class="sub">ออกกำลังกายครบ ${STACK.activeDays} วันในสัปดาห์ได้ +1 · ป่วยกดพักได้ สแตกไม่ลด และไม่ถ่วงคะแนนก๊วน</span></div></div>
     ${status === 'FROZEN' || status === 'WAITING_CLEARANCE'
       ? `<button class="btn blue sm" data-go="return">${status === 'WAITING_CLEARANCE' ? 'ถามแพทย์แล้ว กลับมาเริ่ม' : 'หายดีแล้ว กลับมาออกกำลังกาย'}</button>`
-      : `<button class="btn ghost sm" data-h="freeze">${ic('heart', 22, '#2F6BFF')} ไม่สบาย ขอพักก่อน (สแตกไม่ลด)</button>`}`;
+      : `<button class="btn ghost sm" data-h="freeze">${ic('heart', 22, '#3B7A6C')} ไม่สบาย ขอพักก่อน (สแตกไม่ลด)</button>`}`;
 }
 
 function askFreeze() {
@@ -685,7 +685,7 @@ export function viewReturn() {
       <div class="seg col">${[['all_no', 'ตอบ "ไม่ใช่" ทุกข้อ'], ['any_yes', 'มีข้อที่ตอบ "ใช่"']].map(([v, t]) => `<button data-pick="r.parqFollowUp" data-val="${v}" aria-pressed="${R.parqFollowUp === v}">${t}</button>`).join('')}</div>
     </div>` : ''}
 
-    ${needSelfClear ? `<div class="card stack-v" style="border:1.5px solid #93C5FD;background:#F8FBFF">
+    ${needSelfClear ? `<div class="card stack-v" style="border:1.5px solid #A8CEC5;background:#F8FBFF">
       <b class="h">ด่านที่ 2: แบบสอบถามยืนยันด้วยตนเอง</b>
       ${yn('r.doctorCleared', R.doctorCleared, `ช่วงที่พักฟื้นเพราะ${need ? esc(FREEZE_REASONS[f.reason].label) : 'อาการสุขภาพ'} ท่านได้สอบถามคุณหมอ นักกายภาพ หรือเจ้าหน้าที่ รพ.สต. แล้ว และได้รับอนุญาตให้กลับมาออกกำลังกายเบาๆ ได้แล้วใช่ไหมคะ?`)}
       <small class="sub">ความเป็นส่วนตัว (PDPA ม.26): เก็บเฉพาะสถานะ ใช่/ไม่ใช่ ในเครื่องของท่านเท่านั้น ไม่ขอใบรับรองแพทย์และไม่เก็บเอกสารทางการแพทย์ใดๆ หากตอบ "ไม่ใช่" ระบบจะเปิดเฉพาะท่านั่งเบาๆ (ระดับ 0) ให้ก่อนค่ะ</small>
@@ -807,7 +807,7 @@ function skyIcon(k) {
   const g = {
     sun: '<circle cx="22" cy="22" r="9" fill="#FFC531"/><path d="M22 5v5M22 34v5M5 22h5M34 22h5M10 10l3.5 3.5M30.5 30.5 34 34M10 34l3.5-3.5M30.5 13.5 34 10" stroke="#FF9F1C" stroke-width="3" stroke-linecap="round"/>',
     cloud: '<circle cx="16" cy="17" r="6" fill="#FFC531"/><path d="M12 33h20a7 7 0 0 0 0-14 9 9 0 0 0-17 3 6 6 0 0 0-3 11Z" fill="#D9E1EA"/>',
-    rain: '<path d="M11 26h21a7 7 0 0 0 0-14 9 9 0 0 0-17 3 6 6 0 0 0-4 11Z" fill="#AFC2D6"/><path d="M15 31l-2 5M23 31l-2 5M31 31l-2 5" stroke="#2F6BFF" stroke-width="3" stroke-linecap="round"/>',
+    rain: '<path d="M11 26h21a7 7 0 0 0 0-14 9 9 0 0 0-17 3 6 6 0 0 0-4 11Z" fill="#AFC2D6"/><path d="M15 31l-2 5M23 31l-2 5M31 31l-2 5" stroke="#3B7A6C" stroke-width="3" stroke-linecap="round"/>',
   }[k];
   return `<svg width="44" height="44" viewBox="0 0 44 44" aria-hidden="true">${g}</svg>`;
 }

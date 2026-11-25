@@ -53,10 +53,10 @@ let ringSeq = 0;
 export function ring(pct, size, sw, color, inner) {
   const r = (size - sw) / 2, C = 2 * Math.PI * r, p = Math.max(0, Math.min(1, pct));
   const gid = `rg-${++ringSeq}`;
-  const isBlue = color === '#2F6BFF' || color === '#2563EB';
-  const c1 = isBlue ? '#60A5FA' : '#34D399';
-  const c2 = isBlue ? '#1D4ED8' : '#15803D';
-  const trackColor = isBlue ? '#DBEAFE' : '#DCFCE7';
+  const isBlue = color === '#3B7A6C' || color === '#3B7A6C' || color === '#3B7A6C';
+  const c1 = isBlue ? '#6CA89B' : '#8DC62B';
+  const c2 = isBlue ? '#3B7A6C' : '#55840A';
+  const trackColor = isBlue ? '#DFEFEA' : '#E0ECCD';
   const angle = p * 2 * Math.PI - Math.PI / 2;
   const dotX = (size / 2 + r * Math.cos(angle)).toFixed(1);
   const dotY = (size / 2 + r * Math.sin(angle)).toFixed(1);
@@ -95,7 +95,7 @@ export function toast(text) {
 
 export function confetti(host, n = 36) {
   if (document.documentElement.dataset.motion === 'off' || !host) return;
-  const cs = ['#FF9F1C', '#2F6BFF', '#E5486B', '#16A34A', '#FFC531', '#10B981'];
+  const cs = ['#FF9F1C', '#3B7A6C', '#E5486B', '#73A617', '#FFC531', '#10B981'];
   for (let i = 0; i < n; i++) {
     const c = document.createElement('i'); c.className = 'conf'; c.style.background = cs[i % cs.length];
     const a = Math.random() * Math.PI * 2, r = 90 + Math.random() * 160;
@@ -142,8 +142,8 @@ export function radar(items, size = 240) {
   return `<svg class="radar" viewBox="-40 0 ${size + 80} ${size}" width="100%" style="max-width:${size + 80}px" role="img" aria-label="ค่าพลัง: ${esc(aria)}">
     ${[10, 7, 3].map((k) => `<polygon points="${ringPts(k)}" fill="${k === 7 ? '#EAF6EE' : 'none'}" stroke="#D5DED7" stroke-width="1"/>`).join('')}
     ${items.map((_, i) => { const [x, y] = pt(i, R); return `<line x1="${c}" y1="${c}" x2="${x.toFixed(1)}" y2="${y.toFixed(1)}" stroke="#D5DED7"/>`; }).join('')}
-    <polygon points="${poly}" fill="rgba(22,163,74,.28)" stroke="#15803D" stroke-width="2.5" stroke-linejoin="round"/>
-    ${items.map((it, i) => { const [x, y] = pt(i, (R * (it.level ?? 0)) / 10); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${it.level ? '#15803D' : '#fff'}" stroke="#15803D" stroke-width="2"/>`; }).join('')}
+    <polygon points="${poly}" fill="rgba(115,166,23,.28)" stroke="#55840A" stroke-width="2.5" stroke-linejoin="round"/>
+    ${items.map((it, i) => { const [x, y] = pt(i, (R * (it.level ?? 0)) / 10); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" fill="${it.level ? '#55840A' : '#fff'}" stroke="#55840A" stroke-width="2"/>`; }).join('')}
     ${label}</svg>`;
 }
 

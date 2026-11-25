@@ -91,7 +91,7 @@ export function viewHobby() {
       ? `<div class="note" style="background:var(--suns);color:var(--sunt)"><b>ช่วงฟื้นตัว</b> · จำกัดงานอดิเรกไม่เกินระดับ "${MOVEMENT[tags.movementMax]}"</div>`
       : '';
 
-  const privacyBox = `<div class="note" style="background:#F8FBF9;border:1px solid var(--line);font-size:.92rem">
+  const privacyBox = `<div class="note" style="background:#F4F8EA;border:1px solid var(--line);font-size:.92rem">
     <b>คุ้มครองข้อมูลส่วนบุคคล (PDPA ม.26):</b> ใช้เฉพาะแท็ก <code>movementMax: ${tags.movementMax}</code>${tags.tags.length ? `, <code>${tags.tags.map(esc).join('</code>, <code>')}</code>` : ''} · ไม่ส่งชื่อ โรค หรือเหตุผลการป่วยให้ AI
   </div>`;
 
@@ -144,9 +144,9 @@ export function viewHobby() {
 /* ================================================================ 2) มินิเกมฝึกสมอง (MND ใน stats.js) */
 const MATCH_PAIRS = [
   { id: 'lotus', label: 'ดอกบัว', color: '#FCE7F3', ink: '#9D174D' },
-  { id: 'sun', label: 'พระอาทิตย์', color: '#FEF3C7', ink: '#92400E' },
-  { id: 'leaf', label: 'ใบไม้', color: '#DCFCE7', ink: '#166534' },
-  { id: 'water', label: 'สายน้ำ', color: '#DBEAFE', ink: '#1E40AF' },
+  { id: 'sun', label: 'พระอาทิตย์', color: '#F3EED4', ink: '#664D0B' },
+  { id: 'leaf', label: 'ใบไม้', color: '#E4F0CC', ink: '#166534' },
+  { id: 'water', label: 'สายน้ำ', color: '#DFEFEA', ink: '#225449' },
 ];
 
 function startMatchGame() {
@@ -223,7 +223,7 @@ export function viewBrain() {
   if (brainState.done) {
     const latest = mindStat(s.brainGames || [], todayKey());
     return `<section class="view">${top('ผลฝึกสมอง', 'me')}
-      <div class="card stack-v" style="text-align:center;background:linear-gradient(135deg,#ECFDF3,#FFFFFF)">
+      <div class="card stack-v" style="text-align:center;background:linear-gradient(135deg,#EDF5DC,#FFFFFF)">
         <span class="tag t-ok" style="align-self:center">เก่งมากค่ะ!</span>
         <h2 class="h" style="margin:0;font-size:1.8rem;color:var(--god)">ความแม่นยำ ${Math.round(brainState.accuracy * 100)}%</h2>
         <p class="sub" style="margin:0">${latest.level ? `ค่าพลังสมอง (MND) ตอนนี้อยู่ที่ เลเวล ${latest.level}/10` : latest.reason}</p>

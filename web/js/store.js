@@ -72,6 +72,9 @@ export function healthDefaults(withDemoAssessment = true) {
       ? [{ date: dayKey(5), accuracy: 0.85, kind: 'match' }, { date: dayKey(3), accuracy: 0.9, kind: 'calc' }, { date: dayKey(1), accuracy: 0.8, kind: 'match' }]
       : [],
     cheersLog: withDemoAssessment ? [dayKey(3), dayKey(1)] : [],
+    quickLog: withDemoAssessment
+      ? { sleep: 7.5, hr: 72, bp: '122/78', weight: 56.0, meal: 'ครบ 3 มื้อ', mood: 'สบายใจ', updatedAt: todayKey() }
+      : { sleep: null, hr: null, bp: null, weight: null, meal: null, mood: null, updatedAt: null },
   };
 }
 
@@ -81,6 +84,7 @@ export function migrate(s) {
   const h = healthDefaults(isSample);
   for (const [k, v] of Object.entries(h)) if (s[k] === undefined) s[k] = v;
   s.progress = { ...h.progress, ...(s.progress || {}) };
+  s.quickLog = { ...h.quickLog, ...(s.quickLog || {}) };
   if (!Array.isArray(s.unwellDates)) s.unwellDates = [];
   if (!Array.isArray(s.hobbyHistory)) s.hobbyHistory = [];
   if (!Array.isArray(s.brainGames)) s.brainGames = [];

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#15803D">
+<meta name="theme-color" content="#55840A">
 <meta name="color-scheme" content="light">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,8 +30,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&display=swap" media="print" data-font>
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600;700&family=Noto+Sans+Thai+Looped:wght@400;500;600;700&display=swap"></noscript>
-<link rel="stylesheet" href="css/app.css">
-<link rel="stylesheet" href="css/site.css">
+<link rel="stylesheet" href="css/app.css?v=7">
+<link rel="stylesheet" href="css/site.css?v=7">
 <script src="js/boot.js"></script>
 </head>
 <body class="page">
@@ -53,19 +53,24 @@
   <section class="lhero">
     <div class="wrap lhero-grid">
       <div class="lhero-text">
-        <h1><span class="ln">เดินจริง</span><span class="ln"><em>ตัวละครโต</em></span><span class="ln"><span class="nb">ชวนเพื่อน</span><span class="nb">เดินเป็นก๊วน</span></span></h1>
-        <p class="ln">ตัวหนีบนับก้าวสำหรับผู้สูงอายุ<br>ไม่ต้องใช้มือถือ</p>
+        <h1><span class="ln">เดินจริง</span><span class="ln"><em>ตัวละครโต</em></span><span class="ln"><span class="nb">ชวนเพื่อน</span> <span class="nb">เดินเป็นก๊วน</span></span></h1>
+        <p class="ln">แอปชวนผู้สูงอายุเดินและดูแลสุขภาพ<br>อ่านง่าย ปุ่มใหญ่ สบายตา</p>
         <a class="btn-cta ln" href="app#/step">ลองใช้แอป</a>
       </div>
       <div class="scene-art" id="scene">
-        <span class="sun" data-depth="10"></span>
-        <span class="cloud c1"></span><span class="cloud c2"></span>
-        <span class="hill" data-depth="4"></span><span class="hill two" data-depth="7"></span>
-        <img class="phone-shot" data-depth="14" src="img/app-step.webp" width="600" height="1298" alt="หน้าแรกของแอป: ภารกิจเดิน 15 นาที และปุ่มเริ่มเดิน">
-        <img class="walker" src="assets/character/run.png" alt="" aria-hidden="true">
-        <button class="buddy" id="buddy" type="button" aria-label="แตะตัวละคร"><img src="assets/character/greet.png" alt=""></button>
-        <span class="say" id="say" role="status"></span>
-        <span class="hint" aria-hidden="true">แตะฉันสิ</span>
+        <span class="sun" aria-hidden="true"></span>
+        <div class="buddy-box">
+          <div class="say-wrap">
+            <span class="say" id="say" role="status"></span>
+          </div>
+          <button class="buddy" id="buddy" type="button" aria-label="แตะตัวละครเพื่อทักทาย">
+            <img src="assets/character/greet.png" alt="ตัวละครก้าวรวมใจโบกมือทักทาย">
+          </button>
+          <span class="hint" aria-hidden="true">แตะตัวละครสิ</span>
+        </div>
+        <div class="phone-wrap">
+          <img class="phone-shot" src="img/app-step.webp" width="600" height="1298" alt="หน้าแรกของแอป: ภารกิจเดิน 15 นาที และปุ่มเริ่มเดิน">
+        </div>
       </div>
     </div>
   </section>
@@ -86,7 +91,7 @@
       <h2 id="h-parts" data-anim>มี 3 ส่วน</h2>
       <div class="zig" data-part="body">
         <img data-anim="left" class="tilt" src="img/app-step.webp" width="600" height="1298" loading="lazy" alt="หน้าแอป: ภารกิจเดิน 15 นาที และปุ่มเริ่มเดิน">
-        <div data-anim="right"><span class="kind">กาย</span><h3>ตัวหนีบนับก้าว</h3><p>หนีบไว้ที่เอว เดินจริงถึงนับ เขย่ามือไม่นับ</p><a href="app#/step">ดูในแอป</a></div>
+        <div data-anim="right"><span class="kind">กาย</span><h3>ภารกิจเดินและสุขภาพ</h3><p>ตั้งเป้าเดินตามความพร้อม พร้อมบันทึกก้าว การนอน และชีพจรได้ไว</p><a href="app#/step">ดูในแอป</a></div>
       </div>
       <div class="zig flip" data-part="mind">
         <img data-anim="right" class="tilt" src="img/app-me.webp" width="600" height="1298" loading="lazy" alt="หน้าตัวละคร: เลเวล 7 ขั้นนักเดินประจำ">
@@ -103,7 +108,7 @@
     <div class="wrap">
       <h2 id="h-how" data-anim>ใช้แค่ 3 ขั้น</h2>
       <ol class="how" id="how">
-        <li data-anim><img src="assets/character/greet.png" alt="" loading="lazy"><b>1</b><span>หนีบที่เอว</span></li>
+        <li data-anim><img src="assets/character/greet.png" alt="" loading="lazy"><b>1</b><span>เปิดแอปเช็กความพร้อม</span></li>
         <li data-anim style="--d:.15s"><img src="assets/character/run.png" alt="" loading="lazy"><b>2</b><span>ออกไปเดิน</span></li>
         <li data-anim style="--d:.3s"><img src="assets/character/happy.png" alt="" loading="lazy"><b>3</b><span>ดูตัวละครโต</span></li>
       </ol>
