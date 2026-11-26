@@ -2,20 +2,20 @@
    3 ส่วน: ก้าว (กาย·เขียว) · ตัวละคร (ใจ·ส้มทอง) · ก๊วน (สังคม·ฟ้า)
    ออกแบบเพื่อผู้สูงอายุและทุกคนในครอบครัว: อ่านง่าย สบายตา มีลำดับข้อมูลชัดเจน */
 :root{
-  --bg:#EBF0E1;
-  --card:#FFFDF7;
+  --bg:#EDF2E4;
+  --card:#FFFDF9;
   --ink:#1C2611;
-  --sub:#3B4A2B;
-  --line:#C9D6B5;
+  --sub:#415230;
+  --line:#D4DFC2;
   --leaf:#5E8C10;
   --go:#466E08;
   --god:#2D4A03;
-  --leafs:#E7F0D4;
+  --leafs:#E8F1D6;
   --sun:#8C6B14;
-  --suns:#F5EED6;
+  --suns:#F7F1DA;
   --sunt:#574006;
   --sky:#2E685B;
-  --skys:#E0EFEA;
+  --skys:#E2F0EC;
   --skyd:#1B463C;
   --rose:#944B38;
   --roses:#F6EAE4;
@@ -26,10 +26,10 @@
   --accent-s:var(--leafs);
   --accent-d:var(--god);
   --scale:1;
-  --radius:24px;
-  --shadow:0 2px 6px rgba(28,38,17,.05),0 12px 28px -10px rgba(28,38,17,.09);
-  --shadow-lg:0 4px 12px rgba(28,38,17,.07),0 20px 42px -12px rgba(28,38,17,.14);
-  --ring:0 0 0 1px rgba(70,110,8,.14);
+  --radius:22px;
+  --shadow:0 2px 8px rgba(28,38,17,.04),0 10px 24px -12px rgba(28,38,17,.08);
+  --shadow-lg:0 4px 14px rgba(28,38,17,.06),0 18px 36px -14px rgba(28,38,17,.12);
+  --ring:0 0 0 1px rgba(70,110,8,.10);
   color-scheme:light;
 }
 :root[data-size="l"]{--scale:1.12}
@@ -69,7 +69,6 @@ img{max-width:100%}
 .side{display:none}
 .sheet{position:fixed!important}
 .demo-toggle{display:none}
-.nav-wellness{display:none}
 .home-back-link{display:none}
 
 /* จอคอมพิวเตอร์: จัดวางแบบ Dashboard สุขภาพ 3 คอลัมน์ ไม่ใช้ zoom ที่ทำให้วงแหวนเพี้ยน */
@@ -213,48 +212,6 @@ img{max-width:100%}
     transform:translateY(-1px);
   }
 
-  /* การ์ดสมดุลสุขภาพ 3 มิติ ด้านซ้ายล่างของเมนู */
-  .nav-wellness{
-    display:flex;
-    flex-direction:column;
-    gap:12px;
-    background:rgba(255,255,255,.92);
-    backdrop-filter:blur(10px);
-    border-radius:22px;
-    padding:16px 18px;
-    box-shadow:var(--shadow),var(--ring);
-  }
-  .nw-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    border-bottom:1px solid var(--line);
-    padding-bottom:10px;
-  }
-  .nw-badge{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-family:'Prompt',sans-serif;
-    font-weight:600;
-    font-size:.95rem;
-    color:var(--god);
-  }
-  .nw-score{
-    font-family:'Prompt',sans-serif;
-    font-weight:700;
-    font-size:1.1rem;
-    color:var(--go);
-    background:var(--leafs);
-    padding:2px 10px;
-    border-radius:999px;
-  }
-  .nw-list{display:flex;flex-direction:column;gap:10px}
-  .nw-item{display:flex;flex-direction:column;gap:4px}
-  .nw-row{display:flex;justify-content:space-between;align-items:center;font-size:0.9rem;color:var(--sub)}
-  .nw-row b{color:var(--ink);font-weight:700}
-
   .device .sheet{align-items:center;justify-content:center}
   .device .sheet>.panel{width:min(520px,92vw);border-radius:28px}
 
@@ -383,9 +340,9 @@ img{max-width:100%}
 .card{
   background:var(--card);
   border-radius:var(--radius);
-  box-shadow:var(--shadow),var(--ring);
+  box-shadow:var(--shadow);
   padding:22px 24px;
-  border:1.5px solid #D8E2C6;
+  border:1px solid #DCE5CC;
 }
 button.card{transition:transform .14s ease,box-shadow .14s ease}
 button.card:active{transform:scale(.988)}
@@ -402,14 +359,14 @@ button.card:active{transform:scale(.988)}
   flex-direction:column;
   align-items:stretch;
   gap:16px;
-  padding:20px 22px;
-  background:linear-gradient(135deg,#FAFDF6 0%,#EDF4E0 100%);
-  border:1.5px solid #CFE0B3;
+  padding:22px 24px;
+  background:linear-gradient(180deg,#FFFFFF 0%,#F5F9EC 100%);
+  border:1px solid #D3E1BA;
 }
 .ph-left{
   display:flex;
-  align-items:flex-start;
-  gap:16px;
+  align-items:center;
+  gap:18px;
   min-width:0;
   width:100%;
 }
@@ -502,28 +459,28 @@ button.card:active{transform:scale(.988)}
 .mission-hero{
   position:relative;
   overflow:hidden;
-  padding:20px 22px;
-  background:linear-gradient(145deg,#FAFDF5 0%,#EFF5E3 65%,#E7F0D6 100%);
-  border:1.5px solid #CADCA9;
+  padding:22px 24px;
+  background:linear-gradient(160deg,#FFFFFF 0%,#F4F9EA 70%,#EAF3DA 100%);
+  border:1px solid #CEE0B0;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* ---------- ปุ่มตัวเลขสำคัญ & โหมดระบบบันทึกสุขภาพ (โทนสีสบายตาแบ่งหมวดชัด) ---------- */
+button.vital-box{text-align:left;cursor:pointer;transition:transform .12s ease,box-shadow .15s ease,border-color .15s ease}
+button.vital-box:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(39,54,20,.22);border-color:var(--go)}
+button.vital-box:active{transform:scale(.98)}
+.vital-box.vb-steps{background:#F5FAEC;border-color:#D6E5BC}
+.vital-box.vb-sleep{background:#EEF7F4;border-color:#C7E1D9}
+.vital-box.vb-hr{background:#FAF0EC;border-color:#E5CCC2}
+
+.quick-log-card{
+  background:var(--card);
+  border:1px solid #D6E2C3;
   display:flex;
   flex-direction:column;
   gap:16px;
-}
-
-/* ---------- ปุ่มตัวเลขสำคัญ & บันทึกสุขภาพไว (1 แตะ · โทนสีสบายตาแบ่งหมวดชัด) ---------- */
-button.vital-box{text-align:left;cursor:pointer;transition:transform .12s ease,box-shadow .15s ease,border-color .15s ease}
-button.vital-box:hover{transform:translateY(-2px);box-shadow:0 8px 18px -10px rgba(39,54,20,.25);border-color:var(--go)}
-button.vital-box:active{transform:scale(.98)}
-.vital-box.vb-steps{background:#F3F8E8;border-color:#D2E2B6}
-.vital-box.vb-sleep{background:#EAF4F1;border-color:#C4DFD7}
-.vital-box.vb-hr{background:#F7ECE7;border-color:#E3C7BC}
-
-.quick-log-card{
-  background:linear-gradient(145deg,#FAFDF6 0%,#F0F5E5 100%);
-  border:1.5px solid #CFE0B3;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
 }
 .ql-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .ql-done{
@@ -1082,8 +1039,8 @@ button.vital-box:active{transform:scale(.98)}
   border:1px solid #CFE0B3;
 }
 .day-inspector.warn{
-  background:linear-gradient(135deg,#FFF1F2,#FFFFFF);
-  border:1px solid #FECDD3;
+  background:linear-gradient(135deg,#FAF0EC,#FFFFFF);
+  border:1px solid #DFBFB3;
 }
 .day-inspector.empty{
   background:#F8FAF8;
@@ -1128,64 +1085,6 @@ button.vital-box:active{transform:scale(.98)}
   border:1px solid #E4F0CC;
 }
 
-/* ---------- การ์ดอุปกรณ์ตัวหนีบนับก้าว ---------- */
-.device-banner{
-  display:flex;
-  align-items:center;
-  flex-wrap:wrap;
-  gap:14px;
-  background:linear-gradient(135deg,#FFFDF7 0%,#F2F7E7 100%);
-  border:1.5px solid #D5E4BC;
-}
-.db-icon{
-  position:relative;
-  width:56px;
-  height:56px;
-  border-radius:18px;
-  background:var(--leafs);
-  color:var(--go);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  flex:none;
-}
-.db-live-dot{
-  position:absolute;
-  right:4px;
-  top:4px;
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#73A617;
-  border:2px solid #fff;
-}
-.db-info{
-  flex:1;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  gap:3px;
-}
-.db-title-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-}
-.db-sub{
-  font-size:0.9rem;
-  color:var(--sub);
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-}
-.db-right{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap:4px;
-  flex:none;
-}
 .db-link{
   display:inline-flex;
   align-items:center;
@@ -1199,20 +1098,20 @@ button.vital-box:active{transform:scale(.98)}
 .sess-list{
   display:flex;
   flex-direction:column;
-  gap:8px;
+  gap:10px;
 }
 .sess{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:12px 14px;
+  padding:13px 15px;
   border-radius:16px;
-  background:#F4F8EA;
-  border:1px solid #E6EFE8;
+  background:#F5F9EC;
+  border:1px solid #E2ECD1;
 }
 .sess.is-no{
-  background:#FFF8F9;
-  border-color:#F5E8E2;
+  background:#FAF2EE;
+  border-color:#E6CEC4;
 }
 .sess .si{
   width:46px;
@@ -1252,62 +1151,6 @@ button.vital-box:active{transform:scale(.98)}
 }
 .meta-pill.social{background:#DFEFEA;color:#225449}
 .meta-pill.feel{background:#F3EED4;color:#664D0B}
-
-/* ---------- การ์ดเกร็ดความรู้สุขภาพ (Interactive Health Tips) ---------- */
-.health-tips-card{
-  background:linear-gradient(135deg,#FFFDF7 0%,#FEF9EE 100%);
-  border:1px solid #E3D9AE;
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-.ht-header{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-.ht-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
-.ht-tab{
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  padding:6px 12px;
-  border-radius:999px;
-  font-size:0.9rem;
-  font-weight:600;
-  background:#FFFFFF;
-  color:var(--sub);
-  border:1px solid #E3D9AE;
-  transition:all .15s;
-}
-.ht-tab:hover{background:#F3EED4;color:#664D0B}
-.ht-tab.active{
-  background:#9E7B1E;
-  color:#FFFFFF;
-  border-color:#8C6B16;
-  box-shadow:0 4px 10px -2px rgba(245,158,11,.35);
-}
-.ht-body{
-  background:rgba(255,255,255,.85);
-  border-radius:16px;
-  padding:12px 14px;
-  border:1px solid rgba(251,191,36,.3);
-}
-.ht-title{
-  font-size:1.05rem;
-  margin:0 0 4px;
-  color:#78350F;
-}
-.ht-desc{
-  margin:0;
-  font-size:.92rem;
-  color:#451A03;
-  line-height:1.55;
-}
 
 /* ---------- ฉากตัวละคร (สุขภาพใจ) ---------- */
 .hero{position:relative;height:340px;border-radius:28px;background:linear-gradient(180deg,#F7F4E4,#ECE6CC);overflow:hidden;box-shadow:var(--ring);border:1.5px solid #D8DFC2}
@@ -1443,7 +1286,6 @@ button.char{cursor:pointer}
 @media (max-width:560px){
   .poses{grid-template-columns:repeat(2,minmax(0,1fr))}
   .badges{grid-template-columns:1fr}
-  .device-banner .db-right{width:100%;flex-direction:row;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--line)}
 }
 @media (max-width:480px){
   .flow{flex-direction:column;align-items:stretch;gap:8px}
@@ -1468,7 +1310,7 @@ button.char{cursor:pointer}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .conf{position:absolute;width:10px;height:10px;left:50%;top:40%;border-radius:2px;pointer-events:none;animation:conf 1.2s ease-out forwards;z-index:5}
 @keyframes conf{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}}
-.bubble{position:absolute;right:14px;top:56px;background:var(--ink);color:#fff;border-radius:14px;padding:8px 14px;font-family:'Prompt',sans-serif;font-weight:600;white-space:nowrap;z-index:3;animation:pop .4s cubic-bezier(.3,1.7,.5,1);box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.bubble{position:absolute;right:16px;top:66px;max-width:calc(100% - 32px);background:var(--ink);color:#fff;border-radius:14px;padding:8px 14px;font-family:'Prompt',sans-serif;font-weight:600;white-space:normal;text-align:center;z-index:3;animation:pop .4s cubic-bezier(.3,1.7,.5,1);box-shadow:0 8px 20px rgba(0,0,0,.18)}
 
 /* ---------- แผงสาธิตด้านขวา (Demo & Telemetry Panel) ---------- */
 .panel-demo{
@@ -1599,8 +1441,6 @@ details.card summary{font-size:1.05rem}
 .sysbar svg{flex:none}
 .sysbar button{min-width:44px;min-height:44px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;color:#fff}
 .sysbar .sys-go{background:var(--go);padding:0 16px;font-weight:700;box-shadow:0 3px 0 var(--god)}
-.sample-bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px 8px 16px;border-radius:18px;background:var(--suns);color:var(--sunt);font-weight:700;line-height:1.4}
-.sample-bar button{min-height:44px;padding:0 14px;border-radius:14px;background:#fff;color:var(--sunt);box-shadow:0 0 0 2px #F2C98C inset;white-space:nowrap}
 .mode-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 14px;padding:12px 16px;border-radius:20px;line-height:1.45}
 .mode-bar.is-sample{background:#FBF5DF;color:var(--sunt);border:2px solid #DFC97B}
 .mode-bar.is-mine{background:#EAF4DF;color:var(--god);border:2px solid #B7D294}
