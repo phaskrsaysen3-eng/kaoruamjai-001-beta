@@ -1,6 +1,6 @@
 // ก้าวรวมใจ — service worker: ใช้เครือข่ายก่อนเสมอ (ได้ไฟล์ใหม่ล่าสุด) ถ้าเน็ตหลุดค่อยใช้สำเนาในเครื่อง
 // ไม่แคช /api/ เพราะข้อมูลการเดินและคำของานอดิเรกต้องเรียกเซิร์ฟเวอร์จริงเท่านั้น
-const CACHE = 'kaoruamjai-v12';
+const CACHE = 'kaoruamjai-v13';
 const SHELL = [
   './', 'app.html', 'credits.html', '404.html', 'manifest.webmanifest', 'favicon.ico',
   'css/app.css', 'css/site.css',
