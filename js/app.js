@@ -483,10 +483,10 @@ V.done = () => {
   }[kind];
   speech = msg[0];
   return `<section class="view">
-    <div class="card" style="text-align:center;background:#FFF5F6;border-color:#FECDD3">
+    <div class="card" style="text-align:center;background:#FAF0EC;border-color:#DFBFB3">
       <span class="tag t-no" style="margin-bottom:6px">${ic('x', 14, 'currentColor', 3)} ไม่ผ่านเกณฑ์${r.sim ? ' (จำลอง)' : ''}</span>
       <h1 class="h" style="font-size:1.75rem;margin:0;color:#8C4734">ครั้งนี้ยังไม่นับ</h1>
-      <div class="sub" style="margin-top:4px;color:#7F1D33">${msg[1]}</div>
+      <div class="sub" style="margin-top:4px;color:#662E20">${msg[1]}</div>
     </div>
     <div class="hero st${stage().stage}"><div class="sunb"></div><div class="hill"></div><div class="hill b"></div>
       <div class="bubble">${msg[2]}</div><div class="ped"></div><div class="char ${msg[4]}">${sprite(msg[3], 220)}</div></div>
@@ -508,7 +508,7 @@ V.history = () => {
     <div class="top">${back('step')}<div style="flex:1;min-width:0"><h1 class="h title">ประวัติการเดิน</h1></div>${tools()}</div>
     <div class="grid3">${stat(counted.length, 'ครั้งที่นับ')}${stat(mins, 'นาที')}${stat(nf(steps), 'ก้าว')}</div>
     <div class="card section-card"><div class="sec-header"><h2 class="sec-title">7 วันล่าสุด</h2></div>${weekChart(p, S.user.dailyGoal)}</div>
-    ${rejected ? `<div class="note row" style="background:#FFF1F2;color:#8C4734;border:1px solid #FECDD3">${ic('shield', 24, '#A65B46')}<span>ไม่นับ <b>${rejected} ครั้ง</b> ใน 7 วัน เพราะเขย่ามือหรือเดินสั้นกว่าเกณฑ์</span></div>` : ''}
+    ${rejected ? `<div class="note row" style="background:#FAF0EC;color:#662E20;border:1px solid #DFBFB3">${ic('shield', 24, '#944B38')}<span>ไม่นับ <b>${rejected} ครั้ง</b> ใน 7 วัน เพราะเขย่ามือหรือเดินสั้นกว่าเกณฑ์</span></div>` : ''}
     <div class="card section-card"><div class="sec-header" style="margin-bottom:6px"><h2 class="sec-title">ทั้งหมด ${S.log.length} รายการ</h2></div>
       <div class="sess-list">${S.log.slice().reverse().map(sessRow).join('') || '<div class="sub">ยังไม่มีการเดิน</div>'}</div></div>
     <div class="sample">เก็บเฉพาะจำนวนก้าว เวลา และความรู้สึก · ไม่เก็บพิกัด GPS</div>
@@ -587,7 +587,7 @@ V.team = () => {
     <div class="top"><div class="col" style="gap:2px;min-width:0"><h1 class="h title">${esc(S.team.name)}</h1><div class="sub">${S.team.members.length} คน${hasScore ? ` · อันดับ ${rank} ของตำบล` : ' · กำลังพักผ่อน'} · วันนี้เดินแล้ว ${walked.length} คน${frozenCount ? ` · พักฟื้น ${frozenCount} คน` : ''}</div></div>${tools()}</div>
     <div class="scene"><div class="path"></div><div style="position:absolute;left:22px;top:20px;width:48px;height:48px;border-radius:50%;background:#FFE28A;box-shadow:0 0 0 10px rgba(255,226,138,.3)"></div>
       <div class="row">${S.team.members.slice(0, 6).map((m) => `<div class="member"><div style="display:flex;justify-content:center;height:96px;align-items:flex-end">${sprite(m.frozen ? 'sleep' : m.today ? m.look : 'sleep', 92)}</div>${m.frozen ? `<span class="badge" style="background:var(--sky)">${ic('heart', 13, '#fff', 3)}</span>` : m.today ? `<span class="badge">${ic('check', 13, '#fff', 3.4)}</span>` : ''}<div class="nm">${esc(m.name)}</div><div class="nm-sub" style="${m.frozen ? 'color:var(--skyd)' : ''}">${m.frozen ? 'พักฟื้น' : m.today ? 'เดินแล้ว' : 'รอเดิน'}</div></div>`).join('')}</div></div>
-    <button class="card row" data-go="league" style="width:100%;text-align:left;gap:16px;background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:1.5px solid #BFDBFE">
+    <button class="card row" data-go="league" style="width:100%;text-align:left;gap:16px;background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:1.5px solid #A8CEC5">
       ${ring(hasScore ? mine.score / 100 : 0, 96, 10, '#3B7A6C', `<span class="h tnum" style="font-size:${hasScore ? '1.55rem' : '1rem'};color:var(--skyd)">${hasScore ? Math.round(mine.score) : 'พักผ่อน'}</span><span class="sub" style="font-size:.9rem">${hasScore ? 'คะแนน' : 'ทั้งก๊วน'}</span>`)}
       <span style="flex:1;line-height:1.45;min-width:0"><b class="h" style="font-size:1.2rem;font-weight:700">${hasScore ? `อันดับ ${rank} ของตำบล` : 'ก๊วนกำลังพักผ่อน'}</b><br>
         <span class="sub">${hasScore && otherWithScore.length ? `7 วันล่าสุด · ${rank === 1 ? `นำ${esc(otherWithScore[0].name)} ${Math.round(gap)} คะแนน` : `ตามอันดับ 1 อยู่ ${Math.round(gap)} คะแนน`}` : 'สมาชิกที่พักฟื้นถูกยกเว้นจากตัวหาร ไม่ทำให้คะแนนก๊วนตก'}</span></span>
