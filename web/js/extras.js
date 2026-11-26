@@ -10,6 +10,10 @@ let hobbyState = { loading: false, options: null, tags: null, active: null, step
 let brainState = null;
 
 export function initExtras(c) { ctx = c; }
+export function resetExtrasDrafts() {
+  hobbyState = { loading: false, options: null, tags: null, active: null, stepDone: new Set(), source: null };
+  brainState = null;
+}
 const S = () => ctx.S();
 
 const top = (title, back = 'me', exBack = null) => `<div class="top"><button class="round plain" ${exBack ? `data-ex="${exBack}"` : `data-go="${back}"`} aria-label="ย้อนกลับ">${ic('back', 24)}</button><h1 class="h title" style="flex:1">${title}</h1><button class="round" data-act="speak" aria-label="ฟังเสียงอ่านหน้านี้">${ic('speaker', 26)}</button></div>`;

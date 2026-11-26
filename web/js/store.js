@@ -1,6 +1,8 @@
 // ก้าวรวมใจ — สถานะของแอป (เก็บในเครื่องด้วย localStorage) · ข้อมูลทั้งหมดในไฟล์นี้เป็นข้อมูลตัวอย่างสำหรับสาธิต
 // ตัวเลขที่ต้องตรงกับเอกสาร: ก๊วนบ้านสวน 86 · วัดใหม่ 81 · ตลาดเช้า 74 · ริมคลอง 69 · ป้าแดงเลเวล 7 (640 แต้ม)
 const KEY = 'kaoruamjai.v2';
+const MINE_KEY = 'kaoruamjai.mine.v2';
+const SAMPLE_KEY = 'kaoruamjai.sample.v2';
 const DAY = 86400000;
 
 export function todayKey(d = new Date()) {
@@ -133,9 +135,9 @@ export function defaults() {
   };
 }
 
-export function load() {
+function loadFromKey(k) {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(k);
     if (raw) {
       const s = JSON.parse(raw);
       if (s && s.v === 2) {
@@ -146,18 +148,48 @@ export function load() {
       }
     }
   } catch { /* ใช้ค่าเริ่มต้น */ }
-  return defaults();
+  return null;
+}
+
+export function load() {
+  return loadFromKey(KEY) || defaults();
 }
 
 export function hasSaved() {
   try { return !!localStorage.getItem(KEY); } catch { return false; }
 }
 
+export function hasMineProfile() {
+  try { return !!localStorage.getItem(MINE_KEY); } catch { return false; }
+}
+
+export function loadMineProfile() {
+  const s = loadFromKey(MINE_KEY);
+  if (s) { s.mode = 'mine'; return s; }
+  return null;
+}
+
+export function loadSampleProfile() {
+  const s = loadFromKey(SAMPLE_KEY);
+  if (s) { s.mode = 'sample'; return s; }
+  return defaults();
+}
+
 export function save(state) {
-  try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* เบราว์เซอร์ไม่ให้เก็บ ก็ทำงานต่อได้ */ }
+  try {
+    const json = JSON.stringify(state);
+    localStorage.setItem(KEY, json);
+    if (state?.mode === 'mine') localStorage.setItem(MINE_KEY, json);
+    else if (state?.mode === 'sample') localStorage.setItem(SAMPLE_KEY, json);
+  } catch { /* เบราว์เซอร์ไม่ให้เก็บ ก็ทำงานต่อได้ */ }
 }
 
 export function reset() {
-  try { localStorage.removeItem(KEY); localStorage.removeItem('kaoruamjai.v1'); } catch { /* ignore */ }
+  try {
+    localStorage.removeItem(KEY);
+    localStorage.removeItem(MINE_KEY);
+    localStorage.removeItem(SAMPLE_KEY);
+    localStorage.removeItem('kaoruamjai.v1');
+  } catch { /* ignore */ }
   return defaults();
 }

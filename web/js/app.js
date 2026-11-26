@@ -3,7 +3,7 @@
 //   ส่วนที่ 1 ก้าว      (สุขภาพกาย)   ภารกิจเดิน ตรวจเดินจริง (และโหมด Talk Test ช่วงพักฟื้น) ประวัติ ตัวหนีบ · แบบประเมิน ท่าวันนี้ พัก/กลับมา
 //   ส่วนที่ 2 ตัวละคร   (สุขภาพใจ)    ตัวละครโตได้ ค่าพลัง 6 ด้าน ท่าทาง เหรียญ ท้องฟ้าใจ 2Q เควสงานอดิเรก มินิเกมฝึกสมอง
 //   ส่วนที่ 3 ก๊วน      (สุขภาพสังคม) ก๊วนเพื่อน (ไม่ถูกคนพักฟื้นถ่วงคะแนน) ลีกตำบล ชวนเพื่อน มุมลูกหลาน
-import { load, save, reset, todayKey, dayKey, shiftKey, defaults, hasSaved } from './store.js';
+import { load, save, reset, todayKey, dayKey, shiftKey, defaults, hasSaved, hasMineProfile, loadMineProfile, loadSampleProfile } from './store.js';
 import { analyze, analyzeRecoveryWalk, synth, RULES, fmtMin } from './core/gait.js';
 import { levelFromXp, xpIntoLevel, stageFromLevel, STAGES, XP_PER_MISSION, XP_PER_LEVEL, memberScore, teamScore, adjustDailyGoal, weeklyGoalFromChairStand } from './core/score.js';
 import { signSession, verifySession } from './core/sign.js';
@@ -11,11 +11,11 @@ import { minutesByDay, streak, badges, POSES } from './core/progress.js';
 import { addTraining } from './core/stats.js';
 import { ic, ring, sprite, head, toast, confetti, speak, mmss, nf, esc } from './ui.js';
 import {
-  initHealth, viewCheck, viewPlan, viewReturn, viewTwoQ, charPanel, moodCard, absenceBanner,
+  initHealth, resetHealthDrafts, viewCheck, viewPlan, viewReturn, viewTwoQ, charPanel, moodCard, absenceBanner,
   currentAssessment, effectiveTier, isRecoveryWalkMode, isSeatedOnlyMode,
   handleHealthClick, handleHealthInput, markActive, logFeeling, rollWeeks, demoEndWeek, startCheck,
 } from './health.js';
-import { initExtras, hobbyPromoCard, viewHobby, brainPromoCard, viewBrain, handleExtrasClick } from './extras.js';
+import { initExtras, resetExtrasDrafts, hobbyPromoCard, viewHobby, brainPromoCard, viewBrain, handleExtrasClick } from './extras.js';
 import { TIERS } from './core/assess.js';
 import { addDays, recoveryStatus, startFreeze, FREEZE_REASONS } from './core/plan-progress.js';
 import { initPwa } from './pwa.js';
@@ -148,7 +148,19 @@ const tools = () => `<div class="row tools-bar" style="gap:8px">
   <button class="round plain" data-go="settings" aria-label="ตั้งค่า">${ic('gear', 22)}</button>
 </div>`;
 const back = (to) => `<button class="round plain back-btn" data-go="${to}" aria-label="ย้อนกลับ">${ic('back', 24)}</button>`;
-const sampleBar = () => (isSample() ? `<div class="sample-bar" role="note"><span>ข้อมูลตัวอย่าง (ป้าแดง)</span><button data-act="startMine">เริ่มใช้ของฉัน</button></div>` : '');
+const sampleBar = () => {
+  if (isSample()) {
+    const hasMine = hasMineProfile();
+    return `<div class="mode-bar is-sample" role="note">
+      <div class="mb-info"><span class="mb-badge">โหมดตัวอย่าง</span><span class="mb-txt">กำลังดูข้อมูลสาธิตของป้าแดง</span></div>
+      <button class="mb-btn" data-act="${hasMine ? 'switchMine' : 'startMine'}">${hasMine ? 'สลับกลับของฉัน' : 'เริ่มใช้ของฉัน'}</button>
+    </div>`;
+  }
+  return `<div class="mode-bar is-mine" role="note">
+    <div class="mb-info"><span class="mb-badge">โหมดใช้งานจริง</span><span class="mb-txt">${esc(S.user.name)} · เก็บเฉพาะในเครื่องนี้</span></div>
+    <button class="mb-btn" data-act="useSample">ดูตัวอย่าง (ป้าแดง)</button>
+  </div>`;
+};
 
 function heroCard(pose, motion, lv, st, into, bubble = '', poke = false) {
   const h = 230 * SCALE[st.stage];
@@ -699,8 +711,13 @@ V.settings = () => {
       <button class="btn ghost sm" data-act="export">${ic('download', 22, '#55840A')} ดาวน์โหลดข้อมูลของฉัน</button>
       <a class="btn ghost sm" href="credits.html#privacy">${ic('lock', 22)} ข้อมูลของฉันเก็บที่ไหน</a>
       <a class="btn ghost sm" href="./">${ic('home', 22)} ย้อนกลับไปหน้าแรกเว็บไซต์</a></div>
-    <div class="card col"><b class="h" style="font-size:1.15rem">โหมดสาธิต</b><span class="sub">ความเร็วเวลาตอนจำลองเดิน</span>${seg('speed', [[1, '×1 เวลาจริง'], [20, '×20'], [60, '×60']])}
-      ${isSample() ? `<button class="btn ghost sm" data-act="startMine">${ic('feet', 22)} เลิกดูตัวอย่าง เริ่มใช้ของฉัน</button>` : `<button class="btn ghost sm" data-act="useSample">${ic('refresh', 22)} ดูข้อมูลตัวอย่าง (ป้าแดง)</button>`}
+    <div class="card col"><b class="h" style="font-size:1.15rem">โหมดตัวอย่างและโหมดใช้งานจริง</b><span class="sub">ข้อมูลทั้ง 2 โหมดแยกเก็บคนละส่วน สลับดูตัวอย่างได้โดยข้อมูลจริงไม่หาย</span>
+      <span class="sub">ความเร็วเวลาตอนจำลองเดิน</span>${seg('speed', [[1, '×1 เวลาจริง'], [20, '×20'], [60, '×60']])}
+      ${isSample()
+        ? (hasMineProfile()
+          ? `<button class="btn go sm" data-act="switchMine">${ic('feet', 22, '#fff')} สลับกลับโหมดใช้งานจริงของฉัน</button>`
+          : `<button class="btn go sm" data-act="startMine">${ic('feet', 22, '#fff')} เริ่มใช้โหมดจริงของฉัน</button>`)
+        : `<button class="btn ghost sm" data-act="useSample">${ic('refresh', 22)} สลับดูโหมดตัวอย่าง (ป้าแดง)</button>`}
       <button class="btn ghost sm" data-act="reset" style="color:#8C4734">${ic('x', 22, '#8C4734')} ลบข้อมูลทั้งหมดในเครื่องนี้</button></div>
     <div class="sample">เก็บเฉพาะ ก้าว เวลา ความรู้สึก และผลประเมินสุขภาพ ในเครื่องนี้เท่านั้น · ไม่เก็บ GPS · ไม่เก็บเอกสารทางการแพทย์</div>
   </section>`;
@@ -986,18 +1003,44 @@ const ACT = {
   },
   reset: () => sheet('ลบข้อมูลทั้งหมดในเครื่องนี้?', ['ลบทั้งหมดและเริ่มใหม่'], () => {
     clearInterval(tick); unlockScreen(); walk = null;
+    resetHealthDrafts(); resetExtrasDrafts();
     S = reset(); firstVisit = true; posePreview = null; selectedDayIdx = 6; welcomeStep = 0; applySettings(); syncServerSeq();
     toast('ลบข้อมูลแล้ว'); location.hash = '#/welcome'; render();
-  }, 'จะลบ ประวัติการเดิน ผลประเมินสุขภาพ ความรู้สึก และค่าตั้ง ในเบราว์เซอร์นี้ · กู้คืนไม่ได้ · ดาวน์โหลดเก็บไว้ก่อนได้ที่หน้าตั้งค่า'),
-  startMine: () => { welcomeStep = 1; location.hash = '#/welcome'; render(); setTimeout(() => document.getElementById('w-name')?.focus(), 80); },
+  }, 'จะลบ ประวัติการเดิน ผลประเมินสุขภาพ ความรู้สึก และค่าตั้ง ทั้งหมดในเบราว์เซอร์นี้ · กู้คืนไม่ได้ · ดาวน์โหลดเก็บไว้ก่อนได้ที่หน้าตั้งค่า'),
+  startMine: () => {
+    clearInterval(tick); unlockScreen(); walk = null;
+    resetHealthDrafts(); resetExtrasDrafts();
+    welcomeStep = 1; location.hash = '#/welcome'; render(); setTimeout(() => document.getElementById('w-name')?.focus(), 80);
+  },
+  switchMine: () => {
+    const saved = loadMineProfile();
+    if (!saved) { ACT.startMine(); return; }
+    clearInterval(tick); unlockScreen(); walk = null;
+    resetHealthDrafts(); resetExtrasDrafts();
+    const keep = S.settings;
+    S = saved; S.settings = keep; S.mode = 'mine'; firstVisit = false;
+    posePreview = null; selectedDayIdx = 6; welcomeStep = 0;
+    ensureGoals(); syncMe(); commit(); applySettings();
+    location.hash = '#/step'; render();
+    toast(`สลับกลับโหมดใช้งานจริงของ${S.user.name}แล้ว`);
+  },
   welcomeBack: () => { welcomeStep = 0; render(); },
   useSample: () => {
-    const keep = S.settings; S = defaults(); S.settings = keep; S.mode = 'sample'; firstVisit = false; ensureGoals(); syncMe(); commit();
-    welcomeStep = 0; location.hash = '#/step'; render(); toast('กำลังดูข้อมูลตัวอย่างของป้าแดง');
+    if (S.mode === 'mine') commit(); // บันทึกข้อมูลจริงเก็บไว้ก่อนสลับไปดูตัวอย่าง
+    clearInterval(tick); unlockScreen(); walk = null;
+    resetHealthDrafts(); resetExtrasDrafts();
+    const keep = S.settings;
+    S = loadSampleProfile(); S.settings = keep; S.mode = 'sample'; firstVisit = false;
+    posePreview = null; selectedDayIdx = 6; welcomeStep = 0;
+    ensureGoals(); syncMe(); commit(); applySettings();
+    location.hash = '#/step'; render();
+    toast('สลับมาดูโหมดตัวอย่าง (ป้าแดง) · ข้อมูลจริงของท่านยังถูกเก็บไว้ปลอดภัยค่ะ');
   },
   mineGo: () => {
     const name = (document.getElementById('w-name')?.value || '').trim().slice(0, 20);
     if (!name) { toast('ใส่ชื่อก่อนนะ'); document.getElementById('w-name')?.focus(); return; }
+    clearInterval(tick); unlockScreen(); walk = null;
+    resetHealthDrafts(); resetExtrasDrafts();
     S = newMineState(name); firstVisit = false; ensureGoals(); syncMe(); commit();
     welcomeStep = 0; startCheck(); location.hash = '#/check'; render();
   },

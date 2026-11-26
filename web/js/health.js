@@ -21,6 +21,7 @@ let R = null;       // หน้ากลับมาหลังหยุดพ
 let Q2 = null;      // คำตอบ 2Q ที่กำลังกรอก
 let RD = null;      // เช็กความพร้อมวันนี้ที่กำลังกรอก
 export function initHealth(c) { ctx = c; }
+export function resetHealthDrafts() { W = null; R = null; Q2 = null; RD = null; }
 
 const S = () => ctx.S();
 const TYPE_OF = { STR: 'strength', STA: 'walk', AGI: 'agility', BAL: 'balance' };
