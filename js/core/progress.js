@@ -38,7 +38,7 @@ export function badges({ log, perDay, togetherCount, feelings, level, stage }) {
   const longest = counted.reduce((m, s) => Math.max(m, s.minutes), 0);
   const fun = feelings.filter((f) => f === 'fun').length;
   return [
-    { id: 'first', icon: 'feet', name: 'ก้าวแรก', how: 'เดินจริงครั้งแรก', got: counted.length > 0 },
+    { id: 'first', icon: 'feet', name: 'ก้าวแรก', how: 'เดินจริงครั้งแรก', got: counted.length > 0, prog: `${Math.min(counted.length, 1)}/1` },
     { id: 'week5', icon: 'sun', name: 'ขยันทั้งสัปดาห์', how: 'เดิน 5 วันใน 7 วัน', got: walkedDays >= 5, prog: `${walkedDays}/5` },
     { id: 'long', icon: 'clock', name: 'เดินยาว', how: 'เดินติดกัน 20 นาที', got: longest >= 20, prog: `${longest}/20` },
     { id: 'buddy', icon: 'team', name: 'เพื่อนร่วมทาง', how: 'เดินด้วยกัน 3 ครั้ง', got: togetherCount >= 3, prog: `${Math.min(togetherCount, 3)}/3` },

@@ -373,8 +373,8 @@ V.step = () => {
     <div class="card quick-log-card">
       <div class="ql-head">
         <div>
-          <h2 class="sec-title" style="margin:0">บันทึกสุขภาพไว</h2>
-          <p class="sub" style="margin:2px 0 0;font-size:.95rem">แตะเลือกได้เลย ไม่ต้องพิมพ์หลายขั้นตอน</p>
+          <h2 class="sec-title" style="margin:0">โหมดระบบบันทึกสุขภาพ</h2>
+          <p class="sub" style="margin:4px 0 0;font-size:.95rem">แตะเลือกเพื่อบันทึกข้อมูลประจำวันได้ง่าย เก็บเฉพาะในเครื่องนี้</p>
         </div>
         ${S.quickLog?.updatedAt === todayKey() ? '<span class="ql-done">บันทึกวันนี้แล้ว</span>' : ''}
       </div>
@@ -425,7 +425,7 @@ V.step = () => {
 
 V.walk = () => {
   if (!walk) { location.hash = '#/step'; return ''; }
-  const goal = S.user.dailyGoal * 60, el = walkElapsed(), reached = el >= goal;
+  const goal = Math.max(1, S.user.dailyGoal) * 60, el = walkElapsed(), reached = el >= goal;
   const recWalk = !!walk.relaxed;
   speech = `กำลังเดิน ${Math.floor(el / 60)} นาที ${nf(walkSteps(el, recWalk))} ก้าว ${recWalk ? 'โหมดเดินฟื้นตัว ไม่ต้องรีบ' : 'โหมดจำลอง'}`;
   return `<section class="view walk" style="gap:14px">
@@ -563,7 +563,7 @@ V.me = () => {
     </div>
     <div class="card section-card">
       <div class="sec-header"><h2 class="sec-title">เหรียญความสำเร็จ</h2><span class="sub" style="font-size:.95rem">${b.filter((x) => x.got).length}/${b.length}</span></div>
-      <div class="badges">${b.map((x) => `<div class="bdg ${x.got ? 'got' : 'lock'}"><span class="ico">${ic(x.got ? x.icon : 'lock', 24, 'currentColor', 2.2)}</span><div><b>${x.name}</b><span>${x.got ? 'ได้แล้ว' : `${x.how} · ${x.prog}`}</span></div></div>`).join('')}</div>
+      <div class="badges">${b.map((x) => `<div class="bdg ${x.got ? 'got' : 'lock'}"><span class="ico">${ic(x.got ? x.icon : 'lock', 24, 'currentColor', 2.2)}</span><div><b>${x.name}</b><span>${x.got ? 'ได้แล้ว' : `${x.how}${x.prog ? ` · ${x.prog}` : ''}`}</span></div></div>`).join('')}</div>
     </div>
   </section>`;
 };
@@ -628,7 +628,7 @@ V.league = () => {
         return `<div class="pc">${sprite(i === 0 ? 'happy' : i === 1 ? 'greet' : 'cute', i === 0 ? 94 : 78)}<div class="h" style="font-size:.98rem;text-align:center;margin:4px 0">${esc(t.name)}</div>
           <div class="blk" style="height:${h}px;background:${col[i]};${t.mine ? 'box-shadow:0 0 0 3px #3B7A6C inset' : ''}"><span class="h tnum" style="font-size:1.85rem;color:#1E293B">${Math.round(t.score)}</span><span style="font-size:.9rem;font-weight:700;color:#334155">อันดับ ${i + 1}</span></div></div>`;
       }).join('')}</div>
-      <div style="border-top:1px solid var(--line);padding-top:10px;margin-top:8px">${teams.slice(3).map((t, i) => `<div class="row" style="justify-content:space-between;padding:6px 4px"><span><b>อันดับ ${i + 4}</b> · ${esc(t.name)}</span><b class="h tnum">${t.score === null ? 'พักผ่อน' : Math.round(t.score)}</b></div>`).join('')}</div>
+      <div style="border-top:1px solid var(--line);padding-top:10px;margin-top:8px">${scored.slice(3).map((t, i) => `<div class="row" style="justify-content:space-between;padding:6px 4px"><span><b>อันดับ ${i + 4}</b> · ${esc(t.name)}</span><b class="h tnum">${Math.round(t.score)}</b></div>`).join('')}${teams.filter((t) => t.score === null).map((t) => `<div class="row" style="justify-content:space-between;padding:6px 4px"><span><b>พักผ่อน</b> · ${esc(t.name)}</span><span class="sub">งดคิดคะแนนชั่วคราว</span></div>`).join('')}</div>
     </div>
     <div class="card"><div class="row" style="gap:8px">${ic('scale', 22, '#225449')}<b class="h" style="font-size:1.15rem">คะแนนยุติธรรม คนเดินช้าและคนพักฟื้นไม่ถ่วงก๊วน</b></div>
       <p class="sub" style="font-size:.98rem;margin:6px 0 10px">แต่ละคนมีเป้าของตัวเอง เดินครบเป้าได้ 100 เท่ากัน · สมาชิกที่อยู่ในโหมดพักฟื้นจะถูกยกเว้นจากตัวหารชั่วคราว</p>
@@ -913,7 +913,8 @@ const ACT = {
     commit(); render(); toast(`บันทึกอารมณ์วันนี้: ${label}`);
   }, 'แตะเลือก 1 ข้อเพื่อบันทึกทันที · ข้อมูลเก็บเฉพาะในเครื่องนี้'),
   qWeight: () => {
-    const cur = Number(S.quickLog?.weight ?? S.assessment?.input?.weightKg ?? 56);
+    const raw = Number(S.quickLog?.weight ?? S.assessment?.input?.weightKg);
+    const cur = Number.isFinite(raw) && raw >= 30 ? raw : 56;
     const opts = [cur - 1, cur - 0.5, cur, cur + 0.5, cur + 1].map((v) => Math.max(30, Math.round(v * 10) / 10));
     sheet(`บันทึกน้ำหนัก (ล่าสุด ${cur.toFixed(1)} กก.)`, opts.map((v) => `${v.toFixed(1)} กก.${v === cur ? ' (เท่าเดิม)' : ''}`), (i) => {
       S.quickLog = { ...(S.quickLog || {}), weight: opts[i], updatedAt: todayKey() };
@@ -945,7 +946,7 @@ const ACT = {
     sheet('บันทึกอาหารและน้ำดื่มวันนี้', choices, (i) => {
       S.quickLog = { ...(S.quickLog || {}), meal: choices[i], updatedAt: todayKey() };
       commit(); render(); toast(`บันทึกอาหารวันนี้: ${choices[i]}`);
-    }, 'แตะเลือก 1 ข้อเพื่อบันทึกไว');
+    }, 'แตะเลือก 1 ข้อเพื่อบันทึกข้อมูล');
   },
   start: startWalk,
   pause: () => {
@@ -994,7 +995,7 @@ const ACT = {
   install: async () => { if (!installEvt) return; installEvt.prompt(); await installEvt.userChoice.catch(() => null); installEvt = null; render(); },
   export: () => {
     const { demoKey, ...user } = S.user;
-    const data = { app: 'ก้าวรวมใจ', exportedAt: new Date().toISOString(), mode: S.mode, user, log: S.log, feelings: S.feelings, assessment: S.assessment, mood: S.mood, progress: S.progress, hobbyHistory: S.hobbyHistory, brainGames: S.brainGames, settings: S.settings };
+    const data = { app: 'ก้าวรวมใจ', exportedAt: new Date().toISOString(), mode: S.mode, user, log: S.log, quickLog: S.quickLog, feelings: S.feelings, assessment: S.assessment, mood: S.mood, progress: S.progress, hobbyHistory: S.hobbyHistory, brainGames: S.brainGames, settings: S.settings };
     const a = document.createElement('a');
     a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
     a.download = `kaoruamjai-${todayKey()}.json`; a.click();
@@ -1199,6 +1200,10 @@ function render() {
   app.innerHTML = html + (tabbed ? nav(part) : '');
   if (route !== lastRoute) { app.querySelector('.view')?.classList.add('reveal'); window.scrollTo(0, 0); app.scrollTop = 0; }
   if (route !== 'me') posePreview = null;
+  if (lastRoute === 'walk' && route !== 'walk') {
+    clearInterval(tick); unlockScreen();
+    if (walk && !walk.paused && walk.segStart) { walk.acc += Date.now() - walk.segStart; walk.paused = true; }
+  }
   lastRoute = route;
   clearInterval(inviteTimer);
   if (route === 'invite' && inviteLeft > 0) {
