@@ -70,6 +70,7 @@ img{max-width:100%}
 .sheet{position:fixed!important}
 .demo-toggle{display:none}
 .nav-wellness{display:none}
+.home-back-link{display:none}
 
 /* จอคอมพิวเตอร์: จัดวางแบบ Dashboard สุขภาพ 3 คอลัมน์ ไม่ใช้ zoom ที่ทำให้วงแหวนเพี้ยน */
 @media (min-width:861px){
@@ -188,6 +189,28 @@ img{max-width:100%}
   }
   .phone .tab[aria-current="page"] .tab-sub{
     color:rgba(255,255,255,.9);
+  }
+  .phone .home-back-link{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    min-height:56px;
+    padding:0 18px;
+    border-radius:18px;
+    text-decoration:none;
+    background:#fff;
+    color:var(--god);
+    border:2px solid #BDD396;
+    font-family:'Prompt',sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    box-shadow:var(--shadow);
+    transition:background .15s,transform .14s;
+  }
+  .phone .home-back-link:hover{
+    background:var(--leafs);
+    transform:translateY(-1px);
   }
 
   /* การ์ดสมดุลสุขภาพ 3 มิติ ด้านซ้ายล่างของเมนู */

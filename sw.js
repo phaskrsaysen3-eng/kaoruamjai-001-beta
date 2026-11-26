@@ -1,8 +1,8 @@
 // ก้าวรวมใจ — service worker: ใช้เครือข่ายก่อนเสมอ (ได้ไฟล์ใหม่ล่าสุด) ถ้าเน็ตหลุดค่อยใช้สำเนาในเครื่อง
 // ไม่แคช /api/ เพราะข้อมูลการเดินและคำของานอดิเรกต้องเรียกเซิร์ฟเวอร์จริงเท่านั้น
-const CACHE = 'kaoruamjai-v9';
+const CACHE = 'kaoruamjai-v10';
 const SHELL = [
-  './', 'app', 'credits', '404.html', 'manifest.webmanifest', 'favicon.ico',
+  './', 'app.html', 'credits.html', '404.html', 'manifest.webmanifest', 'favicon.ico',
   'css/app.css', 'css/site.css',
   'js/boot.js', 'js/nomodule.js', 'js/app.js', 'js/site.js', 'js/pwa.js', 'js/store.js', 'js/ui.js', 'js/health.js', 'js/extras.js', 'js/questions.js',
   'js/core/gait.js', 'js/core/score.js', 'js/core/sign.js', 'js/core/progress.js', 'js/core/assess.js', 'js/core/stats.js',
@@ -29,6 +29,6 @@ self.addEventListener('fetch', (e) => {
     fetch(e.request).then((res) => {
       if (res.ok && !res.redirected) { const copy = res.clone(); caches.open(CACHE).then((c) => c.put(e.request, copy)); }
       return res;
-    }).catch(() => caches.match(e.request).then((r) => r || (e.request.mode === 'navigate' ? caches.match(url.pathname.startsWith('/app') ? 'app' : './') : undefined))),
+    }).catch(() => caches.match(e.request).then((r) => r || (e.request.mode === 'navigate' ? caches.match(url.pathname.endsWith('/app') || url.pathname.endsWith('/app.html') ? 'app.html' : './') : undefined))),
   );
 });
