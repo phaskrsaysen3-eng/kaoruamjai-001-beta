@@ -158,7 +158,7 @@ export function absenceBanner() {
 }
 
 /* ================================================================ ชิ้นส่วนหน้าจอ */
-const top = (title, back = 'today') => `<div class="top"><button class="round plain" data-go="${back}" aria-label="ย้อนกลับ">${ic('back', 24)}</button><h1 class="h title" style="flex:1">${title}</h1><button class="round" data-act="speak" aria-label="ฟังเสียงอ่านหน้านี้">${ic('speaker', 26)}</button></div>`;
+const top = (title, back = 'step') => `<div class="top"><button class="round plain" data-go="${back}" aria-label="ย้อนกลับ">${ic('back', 24)}</button><h1 class="h title" style="flex:1">${title}</h1><button class="round" data-act="speak" aria-label="ฟังเสียงอ่านหน้านี้">${ic('speaker', 26)}</button></div>`;
 const yn = (key, val, label) => `<div class="qrow"><div class="qtext">${label}</div><div class="yn" role="group">
   <button data-yn="${key}" data-v="1" aria-pressed="${val === true}">ใช่</button><button data-yn="${key}" data-v="0" aria-pressed="${val === false}">ไม่ใช่</button></div></div>`;
 const num = (key, val, label, unit, attrs = '') => `<label class="field"><span>${label}</span><span class="numwrap"><input type="number" inputmode="decimal" data-f="${key}" value="${val ?? ''}" ${attrs}><em>${unit}</em></span></label>`;
@@ -407,7 +407,7 @@ export function viewPlan() {
   if (status === 'WAITING_CLEARANCE' && freeze) {
     h += `<div class="card stack-v" style="background:var(--suns);color:var(--sunt);border:1.5px solid #9E7B1E">
       <b class="h">${ic('shield', 22, '#664D0B')} รอสอบถามแพทย์/เจ้าหน้าที่ก่อนกลับไปท่ายืน (ระดับ 0)</b>
-      <p style="margin:0">เนื่องจากเพิ่ง${esc(FREEZE_REASONS[freeze.reason].label)} เพื่อความปลอดภัย ลองสอบถามคุณหมอ นักกายภาพ หรือ อสม./รพ.สต. ก่อนนะคะ ระหว่างนี้ทำท่าบริหารท่านั่งเบาๆ และส่งกำลังใจให้เพื่อนในก๊วนได้ค่ะ (สแตกไม่ลด และไม่ถ่วงคะแนนก๊วน)</p>
+      <p style="margin:0">เนื่องจากเพิ่ง${esc(FREEZE_REASONS[freeze.reason]?.label || 'พักฟื้น')} เพื่อความปลอดภัย ลองสอบถามคุณหมอ นักกายภาพ หรือ อสม./รพ.สต. ก่อนนะคะ ระหว่างนี้ทำท่าบริหารท่านั่งเบาๆ และส่งกำลังใจให้เพื่อนในก๊วนได้ค่ะ (สแตกไม่ลด และไม่ถ่วงคะแนนก๊วน)</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">ถามแพทย์แล้ว กลับมาเริ่ม</button>
         <button class="btn ghost sm" data-go="hobby">งานอดิเรกนั่งนิ่ง</button>
@@ -417,7 +417,7 @@ export function viewPlan() {
     const fDays = Math.max(0, daysBetween(freeze.since, todayKey()));
     const canUpgrade = !FREEZE_REASONS[freeze.reason]?.needDoctor;
     h += `<div class="card stack-v" style="background:var(--skys);color:var(--skyd);border:1.5px solid #A8CEC5">
-      <b class="h">${ic('heart', 22, '#3B7A6C')} กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[freeze.reason].label)}</b>
+      <b class="h">${ic('heart', 22, '#3B7A6C')} กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[freeze.reason]?.label || 'พักฟื้น')}</b>
       <p style="margin:0">พักมาแล้ว ${fDays} วัน · พักร่างกายให้เต็มที่นะคะ สแตกความต่อเนื่องถูกเก็บรักษาไว้ไม่ลดลง และไม่ทำให้คะแนนของก๊วนลดลงค่ะ</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">หายดีแล้ว กลับมาออกกำลังกาย</button>
@@ -534,6 +534,7 @@ function readinessBanner(r) {
 
 function submitReadiness() {
   const s = S(), a = currentAssessment();
+  if (!RD || !a) return;
   const missing = READINESS_QUESTIONS.filter((q) => typeof RD.a[q.id] !== 'boolean');
   if (missing.length) { RD.err = 'ตอบให้ครบทุกข้อ'; ctx.render(); return; }
   if (RD.a.newFall && (typeof RD.a.headStrike !== 'boolean' || typeof RD.a.confusion !== 'boolean')) { RD.err = 'ตอบข้อเรื่องการล้มให้ครบ'; ctx.render(); return; }
@@ -598,7 +599,7 @@ export function charPanel() {
     ? `<div class="note" style="background:var(--leafs);color:var(--god);margin-top:8px">ช่วงพักฟื้น · สถิติสูงสุดเดิมของท่านยังถูกเก็บไว้เป็นความภูมิใจเสมอค่ะ</div>` : '';
 
   return `<div class="card" style="text-align:center">${radar(statItems(a.stats))}
-      <div class="sub" style="font-size:.9rem">ทดสอบเมื่อ ${new Date(a.date).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${due.due || p.needRetest ? '<b style="color:var(--god)">ถึงเวลาทดสอบใหม่แล้ว</b>' : `ทดสอบใหม่ในอีก ${due.inDays} วัน`}</div>
+      <div class="sub" style="font-size:.9rem">ทดสอบเมื่อ ${new Date(`${a.date}T12:00:00`).toLocaleDateString('th-TH', { day: 'numeric', month: 'short' })} · ${due.due || p.needRetest ? '<b style="color:var(--god)">ถึงเวลาทดสอบใหม่แล้ว</b>' : `ทดสอบใหม่ในอีก ${due.inDays} วัน`}</div>
       ${cmpNote}
       <div class="grid2" style="margin-top:10px;text-align:left">
         <div class="vital-box"><span class="vb-ic">${ic('sparkle', 20, '#8C6B16')}</span><div class="vb-txt"><span class="vb-lbl">สมอง (MND)</span><b class="vb-val">${mnd.level ? `Lv.${mnd.level}/10` : 'เล่นครบ 3 เกม'}</b></div></div>
@@ -687,7 +688,7 @@ export function viewReturn() {
 
     ${needSelfClear ? `<div class="card stack-v" style="border:1.5px solid #A8CEC5;background:#F8FBFF">
       <b class="h">ด่านที่ 2: แบบสอบถามยืนยันด้วยตนเอง</b>
-      ${yn('r.doctorCleared', R.doctorCleared, `ช่วงที่พักฟื้นเพราะ${need ? esc(FREEZE_REASONS[f.reason].label) : 'อาการสุขภาพ'} ท่านได้สอบถามคุณหมอ นักกายภาพ หรือเจ้าหน้าที่ รพ.สต. แล้ว และได้รับอนุญาตให้กลับมาออกกำลังกายเบาๆ ได้แล้วใช่ไหมคะ?`)}
+      ${yn('r.doctorCleared', R.doctorCleared, `ช่วงที่พักฟื้นเพราะ${need ? esc(FREEZE_REASONS[f.reason]?.label || 'พักฟื้น') : 'อาการสุขภาพ'} ท่านได้สอบถามคุณหมอ นักกายภาพ หรือเจ้าหน้าที่ รพ.สต. แล้ว และได้รับอนุญาตให้กลับมาออกกำลังกายเบาๆ ได้แล้วใช่ไหมคะ?`)}
       <small class="sub">ความเป็นส่วนตัว (PDPA ม.26): เก็บเฉพาะสถานะ ใช่/ไม่ใช่ ในเครื่องของท่านเท่านั้น ไม่ขอใบรับรองแพทย์และไม่เก็บเอกสารทางการแพทย์ใดๆ หากตอบ "ไม่ใช่" ระบบจะเปิดเฉพาะท่านั่งเบาๆ (ระดับ 0) ให้ก่อนค่ะ</small>
     </div>` : ''}
 
@@ -842,8 +843,8 @@ export function handleHealthClick(e) {
   if (h) {
     const k = h.dataset.h;
     if (k === 'start') { startCheck(); location.hash = '#/check'; return true; }
-    if (k === 'next') { W.err = checkStep(W.step); if (!W.err) W.step++; ctx.render(); return true; }
-    if (k === 'prev') { W.err = ''; W.step = Math.max(0, W.step - 1); ctx.render(); return true; }
+    if (k === 'next') { if (!W) startCheck(); W.err = checkStep(W.step); if (!W.err) W.step++; ctx.render(); return true; }
+    if (k === 'prev') { if (!W) startCheck(); W.err = ''; W.step = Math.max(0, W.step - 1); ctx.render(); return true; }
     if (k === 'save') { saveCheck(); return true; }
     if (k === 'freeze') { askFreeze(); return true; }
     if (k === 'upgradeFreeze') { askUpgradeFreeze(); return true; }
@@ -873,7 +874,7 @@ export function handleHealthClick(e) {
     }
     if (k === 'ready') { submitReadiness(); return true; }
     if (k === 'gatecheck') { ctx.render(); return true; }
-    if (k === 'skiptest') { W.input.gate.skip = true; W.err = ''; W.step = 6; ctx.render(); return true; }
+    if (k === 'skiptest') { if (!W) startCheck(); W.input.gate.skip = true; W.err = ''; W.step = 6; ctx.render(); return true; }
     if (k === 'redo') { S().readiness = null; ctx.commit(); ctx.render(); return true; }
     if (k === 'freezeFall') {
       const s = S();
@@ -883,14 +884,14 @@ export function handleHealthClick(e) {
       return true;
     }
     if (k === 'resume') { resume(); return true; }
-    if (k === 'q2score') { const s = S(); Q2.result = score2Q(Q2.a); s.last2Q = todayKey(); s.twoQ = { date: todayKey(), positive: Q2.result.positive }; ctx.commit(); ctx.render(); return true; }
+    if (k === 'q2score') { Q2 ??= { a: [null, null], result: null }; const s = S(); Q2.result = score2Q(Q2.a); s.last2Q = todayKey(); s.twoQ = { date: todayKey(), positive: Q2.result.positive }; ctx.commit(); ctx.render(); return true; }
     if (k === 'consent1' || k === 'consent0') {
       const s = S(); s.familyConsent = k === 'consent1'; ctx.commit(); ctx.render();
       const n = familyNotice(Q2?.result, s.familyConsent, s.user.name);
       ctx.toast(n ? '(ต้นแบบ) ยังไม่ได้ส่งจริง · ระบบจริงจะแจ้งลูกหลานโดยไม่มีคำตอบของท่าน' : 'ไม่แจ้งอะไรถึงลูกหลาน');
       return true;
     }
-    if (k === 'q2done') { Q2 = null; location.hash = '#/today'; return true; }
+    if (k === 'q2done') { Q2 = null; location.hash = '#/step'; return true; }
   }
 
   const y = el('[data-yn]');
@@ -898,8 +899,8 @@ export function handleHealthClick(e) {
     const v = y.dataset.v === '1', key = y.dataset.yn;
     if (key.startsWith('r.')) { if (!R) initReturnDraft(); set(R, key.slice(2), v); R.msg = ''; }
     else if (key.startsWith('rd.')) { RD ??= { a: {} }; RD.a[key.slice(3)] = v; RD.err = ''; }
-    else if (key.startsWith('q2.')) Q2.a[Number(key.slice(3))] = v;
-    else set(W.input, key, v);
+    else if (key.startsWith('q2.')) { Q2 ??= { a: [null, null], result: null }; Q2.a[Number(key.slice(3))] = v; }
+    else { if (!W) startCheck(); set(W.input, key, v); }
     ctx.render(); return true;
   }
 
@@ -907,7 +908,7 @@ export function handleHealthClick(e) {
   if (pk) {
     const key = pk.dataset.pick; let v = pk.dataset.val; if (/^\d+$/.test(v)) v = Number(v);
     if (key.startsWith('r.')) { if (!R) initReturnDraft(); set(R, key.slice(2), v); R.msg = ''; }
-    else set(W.input, key, v);
+    else { if (!W) startCheck(); set(W.input, key, v); }
     ctx.render(); return true;
   }
 
@@ -920,6 +921,7 @@ export function handleHealthClick(e) {
       const l = R[list] || [];
       R[list] = l.includes(c) ? l.filter((x) => x !== c) : [...l, c];
     } else {
+      if (!W) startCheck();
       const l = W.input[rawList] || [];
       W.input[rawList] = l.includes(c) ? l.filter((x) => x !== c) : [...l, c];
     }

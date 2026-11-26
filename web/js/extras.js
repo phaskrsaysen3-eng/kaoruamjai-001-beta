@@ -12,7 +12,7 @@ let brainState = null;
 export function initExtras(c) { ctx = c; }
 const S = () => ctx.S();
 
-const top = (title, back = 'me') => `<div class="top"><button class="round plain" data-go="${back}" aria-label="ย้อนกลับ">${ic('back', 24)}</button><h1 class="h title" style="flex:1">${title}</h1><button class="round" data-act="speak" aria-label="ฟังเสียงอ่านหน้านี้">${ic('speaker', 26)}</button></div>`;
+const top = (title, back = 'me', exBack = null) => `<div class="top"><button class="round plain" ${exBack ? `data-ex="${exBack}"` : `data-go="${back}"`} aria-label="ย้อนกลับ">${ic('back', 24)}</button><h1 class="h title" style="flex:1">${title}</h1><button class="round" data-act="speak" aria-label="ฟังเสียงอ่านหน้านี้">${ic('speaker', 26)}</button></div>`;
 
 /* ================================================================ 1) เควสงานอดิเรก (Hobby Quests) */
 function buildHobbyContext() {
@@ -101,8 +101,8 @@ export function viewHobby() {
 
   if (hobbyState.active) {
     const o = hobbyState.active;
-    const allDone = o.steps.every((_, i) => hobbyState.stepDone.has(i));
-    return `<section class="view">${top('ทำเควสงานอดิเรก', 'hobby')}
+    const doneCount = hobbyState.stepDone.size;
+    return `<section class="view">${top('ทำเควสงานอดิเรก', 'me', 'hback')}
       ${modeNote}
       <div class="card stack-v">
         <div class="row" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
@@ -118,7 +118,7 @@ export function viewHobby() {
             <div style="flex:1"><b>ขั้นที่ ${i + 1}</b><br><span>${esc(st)}</span></div>
           </li>`).join('')}
         </ul>
-        <button class="btn go sm" data-ex="hfinish" ${allDone ? '' : ''}>${ic('check', 24, '#fff', 3)} ทำเสร็จแล้ว</button>
+        <button class="btn go sm" data-ex="hfinish">${ic('check', 24, '#fff', 3)} ทำเสร็จแล้ว${doneCount ? ` (${doneCount}/${o.steps.length})` : ''}</button>
         <button class="btn ghost sm" data-ex="hback">เลือกกิจกรรมอื่น</button>
       </div>
       ${privacyBox}</section>`;
@@ -159,11 +159,14 @@ function startMatchGame() {
 function startCalcGame() {
   const qs = [];
   for (let i = 0; i < 5; i++) {
-    const a = 10 + Math.floor(Math.random() * 25);
-    const b = 3 + Math.floor(Math.random() * 12);
     const add = i % 2 === 0;
+    let a = 10 + Math.floor(Math.random() * 25);
+    let b = 3 + Math.floor(Math.random() * 12);
+    if (!add && a <= b) { const tmp = a; a = b + 3; b = tmp; }
     const ans = add ? a + b : a - b;
-    const wrongs = [ans + 2, ans - 2, ans + 5, ans - 3].filter((x) => x > 0 && x !== ans).slice(0, 2);
+    const wrongs = [...new Set([ans + 2, ans - 2, ans + 5, ans - 3, ans + 1, ans + 4])]
+      .filter((x) => x > 0 && x !== ans)
+      .slice(0, 2);
     const choices = [ans, ...wrongs].sort(() => Math.random() - 0.5);
     qs.push({ text: add ? `${a} + ${b} = ?` : `${a} − ${b} = ?`, ans, choices });
   }
@@ -222,7 +225,7 @@ export function viewBrain() {
 
   if (brainState.done) {
     const latest = mindStat(s.brainGames || [], todayKey());
-    return `<section class="view">${top('ผลฝึกสมอง', 'me')}
+    return `<section class="view">${top('ผลฝึกสมอง', 'me', 'bmenu')}
       <div class="card stack-v" style="text-align:center;background:linear-gradient(135deg,#EDF5DC,#FFFFFF)">
         <span class="tag t-ok" style="align-self:center">เก่งมากค่ะ!</span>
         <h2 class="h" style="margin:0;font-size:1.8rem;color:var(--god)">ความแม่นยำ ${Math.round(brainState.accuracy * 100)}%</h2>
@@ -235,7 +238,7 @@ export function viewBrain() {
   }
 
   if (brainState.mode === 'match') {
-    return `<section class="view">${top('จับคู่คำความจำ', 'me')}
+    return `<section class="view">${top('จับคู่คำความจำ', 'me', 'bmenu')}
       <div class="row" style="justify-content:space-between">
         <span class="pill">จับคู่แล้ว ${brainState.matchedPairs}/4 คู่</span>
         <span class="sub">เปิดไปแล้ว ${brainState.tries} ครั้ง</span>
@@ -251,7 +254,7 @@ export function viewBrain() {
   }
 
   const q = brainState.qs[brainState.idx];
-  return `<section class="view">${top('คิดเลขสบายๆ', 'me')}
+  return `<section class="view">${top('คิดเลขสบายๆ', 'me', 'bmenu')}
     <div class="row" style="justify-content:space-between">
       <span class="pill">ข้อ ${brainState.idx + 1}/${brainState.qs.length}</span>
       <span class="sub">ตอบถูกแล้ว ${brainState.correct} ข้อ</span>
@@ -324,10 +327,11 @@ export function handleExtrasClick(e) {
           return true;
         }
       } else {
+        const gameRef = brainState;
         brainState.lock = true;
         ctx.render();
         setTimeout(() => {
-          if (brainState?.mode === 'match') {
+          if (brainState === gameRef && brainState?.mode === 'match') {
             c1.open = false; c2.open = false;
             brainState.flipped = [];
             brainState.lock = false;

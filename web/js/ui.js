@@ -53,7 +53,7 @@ let ringSeq = 0;
 export function ring(pct, size, sw, color, inner) {
   const r = (size - sw) / 2, C = 2 * Math.PI * r, p = Math.max(0, Math.min(1, pct));
   const gid = `rg-${++ringSeq}`;
-  const isBlue = color === '#3B7A6C' || color === '#3B7A6C' || color === '#3B7A6C';
+  const isBlue = color === '#3B7A6C';
   const c1 = isBlue ? '#6CA89B' : '#8DC62B';
   const c2 = isBlue ? '#3B7A6C' : '#55840A';
   const trackColor = isBlue ? '#DFEFEA' : '#E0ECCD';

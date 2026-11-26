@@ -137,7 +137,8 @@ function nav(on) {
     <button class="tab" data-part="${k}" data-go="${item.tab}" ${on === k ? 'aria-current="page"' : ''}>
       <span class="tab-ic">${ic(item.icon, 26)}</span>
       <span class="tab-txt"><b>${item.name}</b><small class="tab-sub">${sub[k]}</small></span>
-    </button>`).join('')}</div></nav>`;
+    </button>`).join('')}</div>
+    <a class="home-back-link" href="./">${ic('home', 22)}<span>ย้อนกลับไปหน้าแรก</span></a></nav>`;
 }
 
 const sizeLabel = () => ({ m: 'ก', l: 'ก+', xl: 'ก++' }[S.settings.size] || 'ก');
@@ -277,6 +278,7 @@ V.welcome = () => {
     <p>เดินจริง ตัวละครโต ชวนเพื่อนเดินเป็นก๊วน</p>
     <button class="btn go" data-act="startMine">${ic('feet', 28, '#fff')} เริ่มใช้ของฉัน</button>
     <button class="btn ghost" data-act="useSample">ดูตัวอย่าง (ป้าแดง)</button>
+    <a class="btn ghost sm" href="./">${ic('home', 22)} ย้อนกลับไปหน้าแรก</a>
     <p style="font-size:.95rem">ข้อมูลเก็บในเครื่องนี้เท่านั้น · ไม่ใช่เครื่องมือแพทย์</p>
   </section>`;
 };
@@ -328,7 +330,7 @@ V.step = () => {
     ${absenceBanner()}
 
     ${rs === 'FROZEN' || rs === 'WAITING_CLEARANCE' ? `<div class="card stack-v" style="background:linear-gradient(135deg,#EDF6F3,#FFFFFF);border:1.5px solid #A8CEC5">
-      <div class="row" style="gap:10px">${ic('heart', 24, '#3B7A6C')}<b class="h" style="color:var(--skyd)">${rs === 'WAITING_CLEARANCE' ? 'รอถามแพทย์/เจ้าหน้าที่ · เปิดเฉพาะท่านั่ง (ระดับ 0)' : `กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[S.progress.freeze.reason].label)}`}</b></div>
+      <div class="row" style="gap:10px">${ic('heart', 24, '#3B7A6C')}<b class="h" style="color:var(--skyd)">${rs === 'WAITING_CLEARANCE' ? 'รอถามแพทย์/เจ้าหน้าที่ · เปิดเฉพาะท่านั่ง (ระดับ 0)' : `กำลังพักฟื้นเพราะ${esc(FREEZE_REASONS[S.progress.freeze?.reason]?.label || 'พักฟื้น')}`}</b></div>
       <p class="sub" style="margin:0">พักร่างกายให้เต็มที่นะคะ สแตกความต่อเนื่อง (${S.progress.stack} สัปดาห์) ถูกเก็บรักษาไว้ไม่ลดลง และไม่ทำให้คะแนนของก๊วนลดลงค่ะ</p>
       <div class="grid2">
         <button class="btn go sm" data-go="return">${rs === 'WAITING_CLEARANCE' ? 'ถามแพทย์แล้ว กลับมาเริ่ม' : 'หายดีแล้ว กลับมา'}</button>
@@ -695,7 +697,8 @@ V.settings = () => {
         : ios ? '<div class="note">บน iPhone/iPad: แตะปุ่ม<b>แชร์</b> ใน Safari แล้วเลือก <b>"เพิ่มไปยังหน้าจอโฮม"</b></div>'
           : '<div class="sub">เพิ่มลงหน้าจอหลักได้จากเมนูของเบราว์เซอร์ ใช้ได้แม้ไม่มีเน็ต</div>'}
       <button class="btn ghost sm" data-act="export">${ic('download', 22, '#55840A')} ดาวน์โหลดข้อมูลของฉัน</button>
-      <a class="btn ghost sm" href="credits#privacy">${ic('lock', 22)} ข้อมูลของฉันเก็บที่ไหน</a></div>
+      <a class="btn ghost sm" href="credits.html#privacy">${ic('lock', 22)} ข้อมูลของฉันเก็บที่ไหน</a>
+      <a class="btn ghost sm" href="./">${ic('home', 22)} ย้อนกลับไปหน้าแรกเว็บไซต์</a></div>
     <div class="card col"><b class="h" style="font-size:1.15rem">โหมดสาธิต</b><span class="sub">ความเร็วเวลาตอนจำลองเดิน</span>${seg('speed', [[1, '×1 เวลาจริง'], [20, '×20'], [60, '×60']])}
       ${isSample() ? `<button class="btn ghost sm" data-act="startMine">${ic('feet', 22)} เลิกดูตัวอย่าง เริ่มใช้ของฉัน</button>` : `<button class="btn ghost sm" data-act="useSample">${ic('refresh', 22)} ดูข้อมูลตัวอย่าง (ป้าแดง)</button>`}
       <button class="btn ghost sm" data-act="reset" style="color:#8C4734">${ic('x', 22, '#8C4734')} ลบข้อมูลทั้งหมดในเครื่องนี้</button></div>
@@ -934,7 +937,7 @@ const ACT = {
     else { walk.acc += Date.now() - walk.segStart; walk.paused = true; unlockScreen(); }
     render();
   },
-  together: () => { walk.together = !walk.together; render(); },
+  together: () => { if (!walk) return; walk.together = !walk.together; render(); },
   toggleTalk: () => { if (walk) { walk.talkOk = !walk.talkOk; render(); } },
   finish: () => finish('walk'),
   share: () => toast('(ต้นแบบ) ระบบจริงจะส่งผลให้เพื่อนในก๊วนเห็น'),
@@ -982,7 +985,8 @@ const ACT = {
     toast('ดาวน์โหลดข้อมูลแล้ว');
   },
   reset: () => sheet('ลบข้อมูลทั้งหมดในเครื่องนี้?', ['ลบทั้งหมดและเริ่มใหม่'], () => {
-    S = reset(); posePreview = null; selectedDayIdx = 6; welcomeStep = 0; applySettings(); syncServerSeq();
+    clearInterval(tick); unlockScreen(); walk = null;
+    S = reset(); firstVisit = true; posePreview = null; selectedDayIdx = 6; welcomeStep = 0; applySettings(); syncServerSeq();
     toast('ลบข้อมูลแล้ว'); location.hash = '#/welcome'; render();
   }, 'จะลบ ประวัติการเดิน ผลประเมินสุขภาพ ความรู้สึก และค่าตั้ง ในเบราว์เซอร์นี้ · กู้คืนไม่ได้ · ดาวน์โหลดเก็บไว้ก่อนได้ที่หน้าตั้งค่า'),
   startMine: () => { welcomeStep = 1; location.hash = '#/welcome'; render(); setTimeout(() => document.getElementById('w-name')?.focus(), 80); },
@@ -1013,6 +1017,7 @@ function onClick(e) {
   const ps = e.target.closest('[data-pose]');
   if (ps) {
     const p = POSES.find((x) => x.id === ps.dataset.pose);
+    if (!p) return;
     if (p.level > level()) { toast(`ท่า${p.name} ปลดล็อกที่เลเวล ${p.level}`); return; }
     posePreview = p.id; render(); document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth', block: 'center' }); return;
   }
@@ -1042,9 +1047,9 @@ function onClick(e) {
     S.settings[set.dataset.set] = v; commit(); applySettings(); render(); return;
   }
   const ap = e.target.closest('[data-approve]');
-  if (ap) { const r = S.requests.splice(Number(ap.dataset.approve), 1)[0]; S.team.members.push({ name: r.name, minutes: 0, goal: 50, today: false, frozen: false, look: 'think', head: 'head_think' }); commit(); render(); toast(`(ต้นแบบ) ${r.name} เข้าก๊วนในเครื่องนี้แล้ว`); return; }
+  if (ap) { const r = S.requests.splice(Number(ap.dataset.approve), 1)[0]; if (!r) return; S.team.members.push({ name: r.name, minutes: 0, goal: 50, today: false, frozen: false, look: 'think', head: 'head_think' }); commit(); render(); toast(`(ต้นแบบ) ${r.name} เข้าก๊วนในเครื่องนี้แล้ว`); return; }
   const dn = e.target.closest('[data-deny]');
-  if (dn) { const r = S.requests.splice(Number(dn.dataset.deny), 1)[0]; commit(); render(); toast(`ปฏิเสธคำขอของ${r.name}แล้ว`); }
+  if (dn) { const r = S.requests.splice(Number(dn.dataset.deny), 1)[0]; if (!r) return; commit(); render(); toast(`ปฏิเสธคำขอของ${r.name}แล้ว`); }
 }
 app.addEventListener('click', onClick);
 intro.addEventListener('click', onClick);
@@ -1180,10 +1185,12 @@ function navigate() {
 window.addEventListener('hashchange', navigate);
 
 /* ---------------------------------------------------------------- เซิร์ฟเวอร์ */
+const IS_STATIC_HOST = /(^|\.)github\.io$/i.test(location.hostname || '');
 async function syncServerSeq() {
+  if (IS_STATIC_HOST) return;
   try {
     const r = await fetch(`/api/sessions?deviceId=${encodeURIComponent(S.user.deviceId)}`, { cache: 'no-store' });
-    if (!r.ok) return;
+    if (!r.ok || !(r.headers.get('content-type') || '').includes('application/json')) return;
     serverInfo = await r.json();
     if (serverInfo.lastSeq > S.seq) { S.seq = serverInfo.lastSeq; commit(); }
     const lastEnd = Math.max(0, ...(serverInfo.sessions || []).map((x) => x.startedAt + x.durationSec * 1000));
@@ -1191,8 +1198,12 @@ async function syncServerSeq() {
   } catch { /* ignore */ }
 }
 async function checkServer() {
+  if (IS_STATIC_HOST) { serverOnline = false; return; }
   const was = serverOnline;
-  try { const r = await fetch('/api/health', { cache: 'no-store' }); serverOnline = r.ok; } catch { serverOnline = false; }
+  try {
+    const r = await fetch('/api/health', { cache: 'no-store' });
+    serverOnline = r.ok && (r.headers.get('content-type') || '').includes('application/json');
+  } catch { serverOnline = false; }
   if (serverOnline) await syncServerSeq();
   renderDemo();
   if (was !== serverOnline && lastRoute === 'device') render();
@@ -1212,6 +1223,6 @@ applySettings();
 render();
 if (weekNotes.length) setTimeout(() => toast(weekNotes[weekNotes.length - 1]), 400);
 checkServer();
-setInterval(checkServer, 20000);
+if (!IS_STATIC_HOST) setInterval(checkServer, 20000);
 initPwa();
 window.__krjOk = true;

@@ -1,9 +1,9 @@
 {
-  "id": "/app",
+  "id": "./app.html",
   "name": "ก้าวรวมใจ",
   "short_name": "ก้าวรวมใจ",
   "description": "เดินจริง ตัวละครเติบโต ชวนเพื่อนมาเดินเป็นก๊วน",
-  "start_url": "./app#/step",
+  "start_url": "./app.html#/step",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
@@ -19,8 +19,8 @@
     { "src": "assets/logo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
   ],
   "shortcuts": [
-    { "name": "ก้าว · สุขภาพกาย", "short_name": "ก้าว", "url": "./app#/step", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "ตัวละคร · สุขภาพใจ", "short_name": "ตัวละคร", "url": "./app#/me", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] },
-    { "name": "ก๊วน · สุขภาพสังคม", "short_name": "ก๊วน", "url": "./app#/team", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] }
+    { "name": "ก้าว · สุขภาพกาย", "short_name": "ก้าว", "url": "./app.html#/step", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "ตัวละคร · สุขภาพใจ", "short_name": "ตัวละคร", "url": "./app.html#/me", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "ก๊วน · สุขภาพสังคม", "short_name": "ก๊วน", "url": "./app.html#/team", "icons": [{ "src": "img/icons/icon-192.png", "sizes": "192x192" }] }
   ]
 }
